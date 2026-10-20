@@ -47,7 +47,7 @@ ASSUMPTIONS = [
     ("FlipTarget", "Flip: minimum profit", 50000, USD, "ryan's target: $50k profit per flip"),
     ("FlipMinAnnROI", "Flip: minimum annualized return on cash (0 = off)", 0.15, PCT,
      "Second test so big-ticket flips can't pass on $50k alone over a 2-year hold. "
-     "Simple annualized: profit / peak cash / years held. Suggested, pending ryan's call"),
+     "Simple annualized: profit / peak cash / years held. ryan confirmed 15% on Oct 20"),
     ("FlipCeiling", "Flip: all-in cost ceiling (bid + rehab + costs)", 300000, USD,
      "Ideal box. A deal over this is flagged, not excluded"),
     ("HoldTarget", "Value-add: target annual return", 0.12, PCT, "ryan's target: 12%"),
