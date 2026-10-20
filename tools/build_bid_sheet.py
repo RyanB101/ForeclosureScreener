@@ -40,7 +40,7 @@ def walk_away(row, flip_target, flip_walk, hold_target, hold_walk):
     return floor_inc(mb + (cash * hold_target / hold_walk - cash) / (1 + PREMIUM))
 
 
-def load_verdicts(specs):
+def load_verdicts(specs, base_case_paths):
     frames = []
     for spec in specs:
         label, _, path = spec.rpartition("=")
@@ -49,7 +49,22 @@ def load_verdicts(specs):
         frames.append(v)
     # A lot can sit on more than one list; the first list given wins.
     v = pd.concat(frames, ignore_index=True).drop_duplicates("auction_id", keep="first")
-    return v[v["verdict"].fillna("").str.startswith("Bid")].copy()
+    v["docket_check"] = ""
+    hold = v["verdict"].fillna("").str.startswith("Hold") & (v.get("base_case_max_bid", 0) > v["opening_bid"])
+    if hold.any() and base_case_paths:
+        # "Hold: verify docket" lots are bid at the base-case max (plaintiff holds the 1st),
+        # and only once the docket confirms it.
+        b = pd.concat([pd.read_csv(p) for p in base_case_paths]).drop_duplicates("auction_id")
+        b = b.set_index("auction_id")[["max_bid", "all_in_cash", "result_at_max", "best_exit"]]
+        ids = v.loc[hold, "auction_id"]
+        v.loc[hold, "docket_check"] = ("REQUIRED. If a senior mortgage survives, max bid is $"
+                                       + v.loc[hold, "max_bid"].fillna(0).astype(int).map("{:,}".format))
+        for col in b.columns:
+            v.loc[hold, col] = ids.map(b[col]).values
+        v.loc[hold, "verdict"] = "Hold: verify docket" + v.loc[hold, "all_in_cash"].map(
+            lambda x: "" if x <= 300_000 else " (over the $300k box)")
+    keep = v["verdict"].fillna("").str.startswith("Bid") | (hold & bool(base_case_paths))
+    return v[keep].copy()
 
 
 def main():
@@ -62,10 +77,12 @@ def main():
     ap.add_argument("--flip-walk-profit", type=float, default=25_000)
     ap.add_argument("--hold-target", type=float, default=0.12)
     ap.add_argument("--hold-walk-yield", type=float, default=0.10)
+    ap.add_argument("--base-case", nargs="*", default=[],
+                    help="max_bids_base_case.csv files; Hold-verify-docket lots are bid at these numbers")
     ap.add_argument("--title", help="title/lien check CSV; KILL lots are dropped, VERIFY lots rank last in their batch")
     args = ap.parse_args()
 
-    df = load_verdicts(args.verdicts)
+    df = load_verdicts(args.verdicts, args.base_case)
     master = pd.read_csv(args.master, usecols=["Auction ID", "Bidding closes", "Close slot",
                                                "Sale risk", "Flags", "OPA (primary)"])
     df = df.merge(master, left_on="auction_id", right_on="Auction ID", how="left")
@@ -99,7 +116,7 @@ def main():
     ws.title = "Bid sheet"
     hdr = ["Close", "Priority in batch", "Address", "Auction ID", "List", "Verdict", "Exit", "Opening bid",
            "Opening bid estimated?", "Max bid (proxy)", "Walk-away", "All-in cash at max", "Result at max",
-           "Due Nov 4 at max", "Due Nov 18 at max", "Sale risk", "Flags", "Title check",
+           "Due Nov 4 at max", "Due Nov 18 at max", "Sale risk", "Flags", "Docket check", "Title check",
            "Surviving liens (base)", "Surviving liens (worst)", "Won? (Y/N)", "Final price",
            "Committed (live)"]
     ws.append(hdr)
@@ -107,41 +124,35 @@ def main():
         ws.append([r[df.columns.get_loc("Close slot")], r.priority, r.address, r.auction_id, r.list, r.verdict,
                    r.best_exit, r.opening_bid, "Yes" if r.opening_bid_estimated else "No", r.max_bid,
                    r.walk_away, r.all_in_cash, r.result_at_max, round(r.max_bid * (0.10 + PREMIUM)),
-                   round(r.max_bid * 0.90 + 35), r[df.columns.get_loc("Sale risk")], r.Flags, r.Title,
+                   round(r.max_bid * 0.90 + 35), r[df.columns.get_loc("Sale risk")], r.Flags, r.docket_check, r.Title,
                    r[df.columns.get_loc("Surviving base")], r[df.columns.get_loc("Surviving worst")], None, None,
-                   f'=IF(U{i}="Y",V{i}*{1 + PREMIUM}+(L{i}-J{i}*{1 + PREMIUM}),0)'])
+                   f'=IF(V{i}="Y",W{i}*{1 + PREMIUM}+(L{i}-J{i}*{1 + PREMIUM}),0)'])
     n = len(df) + 1
-    ws["Y1"], ws["Z1"] = "Cap", args.cap
-    ws["Y2"], ws["Z2"] = "Committed so far", f"=SUM(W2:W{n})"
-    ws["Y3"], ws["Z3"] = "Headroom", "=Z1-Z2"
-    ws["Y5"] = "Committed (live) = final price x 1.015 plus the rest of that lot's all-in budget."
+    ws["Z1"], ws["AA1"] = "Cap", args.cap
+    ws["Z2"], ws["AA2"] = "Committed so far", f"=SUM(X2:X{n})"
+    ws["Z3"], ws["AA3"] = "Headroom", "=AA1-AA2"
+    ws["Z5"] = "Committed (live) = final price x 1.015 plus the rest of that lot's all-in budget."
     if killed:
-        ws["Y8"] = "Dropped by title check (do not bid): " + ", ".join(killed)
-    ws["Y7"] = "VERIFY lots: check the plaintiff on the court docket before bidding; worst case adds the surviving lien."
-    ws["Y6"] = "While a lot is still open and you lead, count its full all-in cash at max against headroom."
+        ws["Z8"] = "Dropped by title check (do not bid): " + ", ".join(killed)
+    ws["Z7"] = "VERIFY lots: check the plaintiff on the court docket before bidding; worst case adds the surviving lien."
+    ws["Z6"] = "While a lot is still open and you lead, count its full all-in cash at max against headroom."
     for c in ws[1]:
         c.font = Font(bold=True, color="FFFFFF")
         c.fill = PatternFill("solid", fgColor="1F3A5F")
         c.alignment = Alignment(wrap_text=True, vertical="top")
-    for col in "HJKLNOSTVWZ":
+    for col in ("H", "J", "K", "L", "N", "O", "T", "U", "W", "X", "AA"):
         for cell in ws[col][1:]:
             cell.number_format = "$#,##0"
-    for col in "ST":
-        for cell in ws[col][1:]:
-            cell.number_format = "$#,##0"
-    for col in "VW":
-        for cell in ws[col][1:]:
-            cell.number_format = "$#,##0"
-    ws["Z1"].number_format = "$#,##0"
-    for c in ("Y1", "Y2", "Y3"):
+    ws["AA1"].number_format = "$#,##0"
+    for c in ("Z1", "Z2", "Z3"):
         ws[c].font = Font(bold=True)
-    widths = [8, 9, 22, 11, 10, 22, 14, 12, 11, 13, 12, 14, 34, 12, 13, 10, 60, 22, 12, 12, 10, 12, 14, 2, 18, 14]
+    widths = [8, 9, 22, 11, 10, 22, 14, 12, 11, 13, 12, 14, 34, 12, 13, 10, 60, 40, 22, 12, 12, 10, 12, 14, 2, 18, 14]
     for i, w in enumerate(widths, 1):
         ws.column_dimensions[get_column_letter(i)].width = w
     ws.freeze_panes = "D2"
     yellow = PatternFill("solid", fgColor="FFF2CC")
     for i in range(2, n + 1):
-        for col in "UV":
+        for col in "VW":
             ws[f"{col}{i}"].fill = yellow
     wb.save(args.out)
     print(df[["Close slot", "priority", "address", "list", "verdict", "Title", "max_bid", "walk_away",
