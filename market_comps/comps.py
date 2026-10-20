@@ -113,8 +113,10 @@ def value(subj, sales, asof):
 def load_subjects(path):
     with open(path) as f:
         rows = list(csv.DictReader(f))
-    opas = sorted({(r.get("OPA") or r.get("opa") or r.get("OPA (primary)") or "").strip()
-                   for r in rows} - {""})
+    # Package lots list several OPAs joined with " & "
+    opas = sorted({o.strip() for r in rows
+                   for o in (r.get("OPA") or r.get("opa") or r.get("OPA (primary)") or "").split("&")}
+                  - {""})
     return query(SUBJECT_SQL.format(opas=sql_list(opas)))
 
 
