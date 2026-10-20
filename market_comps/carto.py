@@ -5,6 +5,7 @@ Stdlib only so it runs in a bare cloud container.
 import csv
 import io
 import json
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -16,8 +17,18 @@ class CartoError(RuntimeError):
     pass
 
 
-def query(sql, fmt="json", timeout=120):
-    """Run a SQL query. Returns a list of dicts."""
+def query(sql, fmt="json", timeout=120, retries=3):
+    """Run a SQL query. Returns a list of dicts. Retries dropped connections."""
+    for attempt in range(retries):
+        try:
+            return _query(sql, fmt, timeout)
+        except CartoError as e:
+            if attempt == retries - 1 or "HTTP" in str(e):
+                raise
+            time.sleep(2 ** (attempt + 1))
+
+
+def _query(sql, fmt, timeout):
     data = urllib.parse.urlencode({"q": sql, "format": fmt}).encode()
     req = urllib.request.Request(CARTO_URL, data=data, method="POST")
     try:

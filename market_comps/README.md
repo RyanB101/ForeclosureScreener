@@ -19,6 +19,10 @@ python build_zip_market.py --stats zip_stats.csv --rents zip_rents_fy27_safmr.cs
 # 3. As-is value and ARV for a shortlist (CSV with an OPA column)
 python comps.py --sales sales.csv --subjects shortlist.csv --out values.csv
 
+# 4. Closer values for a shortlist, one row per lot, with block and same-street checks
+python shortlist_values.py --sales sales.csv --rents zip_rents_fy27_safmr.csv \
+    --shortlist nov3_shortlist.csv --out shortlist_values.csv
+
 python -m unittest test_comps
 ```
 
@@ -33,6 +37,8 @@ Interiors can't be inspected before a sheriff sale, so values come from the spre
 | ARV | 80th percentile $/sqft × subject sqft |
 
 Comps are the 30 nearest same-category (single family, multi family, mixed use) open-market resales of $10k+ from the last 18 months, living area within ±35%, in a radius that widens from 0.35 to 1.0 mile until at least 6 are found. Sheriff, GSE, HUD, Land Bank, city and estate transfers are dropped.
+
+`shortlist_values.py` tightens this for finalists: building-class matching, 0.25 mi first ring, ARV capped at the comps' 90th percentile price, and a hot-pocket flag with a conservative ARV when ARV is over 1.6x the median of all sales within 0.15 mi.
 
 Values are today's. Sheriff deeds are taking 9 to 15 months, so apply any growth assumption at the underwriting step.
 

@@ -34,7 +34,7 @@ SUBJECT_SQL = """
 SELECT parcel_number AS opa, location, zip_code, category_code_description AS category,
        building_code_description AS building, total_livable_area AS sqft,
        total_area AS lot_sqft, number_of_bedrooms AS beds, number_of_bathrooms AS baths,
-       year_built, exterior_condition, interior_condition, market_value,
+       number_stories AS stories, year_built, exterior_condition, interior_condition, market_value,
        sale_date, sale_price, zoning, ST_Y(the_geom) AS lat, ST_X(the_geom) AS lng
 FROM opa_properties_public WHERE parcel_number IN ({opas})
 """
