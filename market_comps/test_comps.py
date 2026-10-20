@@ -24,10 +24,11 @@ class CompsTest(unittest.TestCase):
     def test_filters_and_values(self):
         sales = [sale(i, 100 + 10 * i) for i in range(10)]
         sales += [sale(50, 500, cat="MULTI FAMILY"), sale(51, 500, sqft=3000),
-                  sale(52, 500, date="2024-01-01"), sale(53, 500, dlat=0.05)]
+                  sale(52, 500, date="2024-01-01"), sale(53, 500, dlat=0.05),
+                  dict(sale(54, 500), new_build="Y")]
         comps, r = find_comps(SUBJ, sales, ASOF)
         self.assertEqual(len(comps), 10)
-        self.assertEqual(r, 0.35)
+        self.assertLessEqual(r, 0.35)
         v = value(SUBJ, sales, ASOF)
         self.assertEqual(v["ppsf_median"], 145)
         self.assertLess(v["as_is_value"], v["market_value_est"])
@@ -37,7 +38,7 @@ class CompsTest(unittest.TestCase):
     def test_radius_widens(self):
         sales = [sale(i, 150, dlat=0.009) for i in range(6)]  # ~0.62 mi away
         _, r = find_comps(SUBJ, sales, ASOF)
-        self.assertEqual(r, 0.75)
+        self.assertAlmostEqual(r, 0.62, delta=0.02)
 
     def test_zip_stats_yoy(self):
         rows = [sale(1, 100, date="2026-05-01"), sale(2, 100, date="2025-05-01")]

@@ -1,6 +1,6 @@
 """ZIP-level market stats from a sales CSV made by pull_sales.py.
 
-For each ZIP: sale count, median price and $/sqft for the last 12 months,
+Resales only (new construction excluded). For each ZIP: sale count, median price and $/sqft for the last 12 months,
 the prior 12 months, and the year-over-year change.
 
 Usage:
@@ -28,7 +28,7 @@ def stats(rows, asof):
     for r in rows:
         d = dt.date.fromisoformat(r["sale_date"][:10])
         k = "1" if d >= cut1 else "2" if d >= cut2 else None
-        if not k:
+        if not k or r.get("new_build"):
             continue
         b = by[r["zip_code"]]
         b["p" + k].append(float(r["price"]))

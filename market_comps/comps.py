@@ -8,7 +8,7 @@ nearby sold $/sqft rather than condition-matched comps:
   * ARV          = 80th percentile $/sqft x subject sqft (renovated sales
                    cluster at the top of a block's range)
 
-Comps are same-category sales within a radius that widens (0.35 -> 0.5 ->
+Comps are same-category resales (new construction and lot sales excluded) within a radius that widens (0.35 -> 0.5 ->
 0.75 -> 1.0 mi) until at least MIN_COMPS are found, with living area within
 +/-35% of the subject when the subject's size is known.
 
@@ -28,6 +28,7 @@ RADII_MI = (0.35, 0.5, 0.75, 1.0)
 MIN_COMPS = 6
 MAX_AGE_DAYS = 548  # 18 months
 SIZE_BAND = 0.35
+MAX_COMPS = 30  # nearest N, so dense areas value off the block, not the ZIP
 
 SUBJECT_SQL = """
 SELECT parcel_number AS opa, location, zip_code, category_code_description AS category,
@@ -65,7 +66,7 @@ def find_comps(subj, sales, asof):
     for s in sales:
         if s["opa"] == subj["opa"] or not s["price_per_sqft"] or not s["lat"]:
             continue
-        if s["category"] != subj["category"]:
+        if s.get("new_build") or s["category"] != subj["category"]:
             continue
         if (asof - dt.date.fromisoformat(s["sale_date"][:10])).days > MAX_AGE_DAYS:
             continue
@@ -76,7 +77,9 @@ def find_comps(subj, sales, asof):
     for r in RADII_MI:
         comps = [(d, s) for d, s in cand if d <= r]
         if len(comps) >= MIN_COMPS:
-            return comps, r
+            comps.sort(key=lambda c: c[0])
+            comps = comps[:MAX_COMPS]
+            return comps, round(comps[-1][0], 2)
     return [(d, s) for d, s in cand if d <= RADII_MI[-1]], RADII_MI[-1]
 
 

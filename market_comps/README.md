@@ -12,6 +12,10 @@ python pull_sales.py --auction-csv /mnt/project-files/nov3-auction/nov3_2026_auc
 # 2. ZIP medians, $/sqft and year-over-year change
 python zip_stats.py sales.csv --out zip_stats.csv
 
+# 2b. Merge with HUD Small Area FMRs into one ZIP table with a suggested play
+python build_zip_market.py --stats zip_stats.csv --rents zip_rents_fy27_safmr.csv \
+    --auction-csv nov3_2026_auction_parcels.csv --out zip_market.csv
+
 # 3. As-is value and ARV for a shortlist (CSV with an OPA column)
 python comps.py --sales sales.csv --subjects shortlist.csv --out values.csv
 
@@ -28,8 +32,8 @@ Interiors can't be inspected before a sheriff sale, so values come from the spre
 | Market value | Median $/sqft × subject sqft |
 | ARV | 80th percentile $/sqft × subject sqft |
 
-Comps are same-category (single family, multi family, mixed use) open-market deeds of $10k+ from the last 18 months, living area within ±35%, in a radius that widens from 0.35 to 1.0 mile until at least 6 are found. Sheriff, GSE, HUD, Land Bank, city and estate transfers are dropped.
+Comps are the 30 nearest same-category (single family, multi family, mixed use) open-market resales of $10k+ from the last 18 months, living area within ±35%, in a radius that widens from 0.35 to 1.0 mile until at least 6 are found. Sheriff, GSE, HUD, Land Bank, city and estate transfers are dropped.
 
 Values are today's. Sheriff deeds are taking 9 to 15 months, so apply any growth assumption at the underwriting step.
 
-Carto field names follow the city's published schema and have not yet been checked against a live query from this environment.
+HUD's site blocks plain HTTP clients, so the FY2027 SAFMR workbook was downloaded through headless Chromium and the Philadelphia ZIPs extracted to `zip_rents_fy27_safmr.csv`.

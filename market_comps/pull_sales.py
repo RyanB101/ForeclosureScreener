@@ -14,8 +14,8 @@ import sys
 
 from carto import query, sql_list
 
-# Deeds that are not open-market sales: sheriff, tax claim, condemnation, etc.
-# Only plain DEED documents are kept, then filtered further by price and parties.
+# Only plain DEED documents are kept (not SHERIFF'S DEED or MISCELLANEOUS DEED),
+# single-parcel deeds only, then filtered further by price and parties.
 MIN_PRICE = 10_000
 
 SQL = """
@@ -46,6 +46,7 @@ JOIN opa_properties_public o ON o.parcel_number = r.opa_account_num
 WHERE r.document_type = 'DEED'
   AND r.display_date >= '{since}'
   AND r.total_consideration >= {min_price}
+  AND coalesce(r.property_count, 1) = 1
   AND left(r.zip_code, 5) IN ({zips})
   AND o.category_code_description IN ('SINGLE FAMILY', 'MULTI FAMILY', 'MIXED USE')
 """
@@ -70,6 +71,10 @@ def pull(zips, since):
         sqft = float(r["sqft"] or 0)
         r["price_per_sqft"] = round(float(r["price"]) / sqft, 2) if sqft > 300 else ""
         r["zip_code"] = str(r["zip_code"])[:5]
+        # OPA shows the building as it stands now. A house built in or after the
+        # sale year was sold as land or as new construction, not a resale.
+        yb = int(r["year_built"] or 0)
+        r["new_build"] = "Y" if yb >= int(r["sale_date"][:4]) - 1 else ""
         out.append(r)
     return out
 
