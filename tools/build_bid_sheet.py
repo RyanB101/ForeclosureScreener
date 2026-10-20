@@ -47,7 +47,8 @@ def load_verdicts(specs):
         v = pd.read_csv(path)
         v["list"] = label or "shortlist"
         frames.append(v)
-    v = pd.concat(frames, ignore_index=True)
+    # A lot can sit on more than one list; the first list given wins.
+    v = pd.concat(frames, ignore_index=True).drop_duplicates("auction_id", keep="first")
     return v[v["verdict"].fillna("").str.startswith("Bid")].copy()
 
 
