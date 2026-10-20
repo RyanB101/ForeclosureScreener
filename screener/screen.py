@@ -289,7 +289,9 @@ def score(m):
     plays = [c for c in ("max_bid_flip", "max_bid_hold") if c in m]
     best_bid = m[plays].max(axis=1)
     m["best_max_bid"] = best_bid
-    m["best_play"] = m[plays].idxmax(axis=1).map({"max_bid_flip": "Flip", "max_bid_hold": "Hold"})
+    priced = m[plays].notna().any(axis=1)
+    m["best_play"] = (m.loc[priced, plays].idxmax(axis=1)
+                      .map({"max_bid_flip": "Flip", "max_bid_hold": "Hold"}).reindex(m.index))
     m["all_in_at_max_bid"] = (best_bid.clip(lower=0) * (1 + C.BUYERS_PREMIUM) + m["rehab"]
                               + m["carry"] + m["soft_costs"]).round(-2)
     m["max_bid_to_as_is"] = (best_bid / m["as_is_value"]).round(2)

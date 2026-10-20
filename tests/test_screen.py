@@ -76,6 +76,7 @@ def test_full_screen(stubbed):
     assert lots.loc[2, "floor_bid"] > 1 and "est." in lots.loc[2, "floor_bid_basis"]
     # Vacant (city flag) lot skips the ejectment months and reserve.
     assert lots.loc[2, "hold_months"] < lots.loc[1, "hold_months"]
+    # Industrial: no residential value, killed on use rather than crashing the score.
     assert lots.loc[4, "list"] == "Kill" and "outside the buy box" in lots.loc[4, "kill_reason"]
     assert lots.loc[3, "list"] == "Kill" and "No margin" in lots.loc[3, "kill_reason"]
     assert lots.loc[1, "list"] == "Shortlist"
