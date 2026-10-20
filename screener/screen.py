@@ -164,27 +164,33 @@ def band(row):
     return found
 
 
-def value(par, market, comps=None):
+def value(par, market, comps=None, refined=None):
     """Quick same-ZIP value, replaced per parcel by sold-comp values when given.
 
     comps: one row per OPA with as_is_value and arv (Market and comps thread).
+    refined: closer per-lot values (building-class comps, block-level ARV
+    check) that replace comps and skip the ZIP cap.
     """
     p = _zip_value(par, market)
     p["value_source"] = np.where(p["arv"].notna(), "same-ZIP OPA sales", None)
-    if comps is not None and len(comps):
-        c = comps.copy()
+    p["comp_confidence"] = None
+    p["comp_count"] = np.nan
+    for source, df in (("sold comps", comps), ("closer comps", refined)):
+        if df is None or not len(df):
+            continue
+        c = df.copy()
+        c = c[~c["opa"].astype(str).str.contains("&")]
         c["opa"] = opa9(c["opa"])
-        c = c[c["arv"].notna()].set_index("opa")
+        c = c[c["arv"].notna()].drop_duplicates("opa").set_index("opa")
         hit = p["opa"].isin(c.index)
-        for col in ("as_is_value", "arv"):
-            p.loc[hit, col] = p.loc[hit, "opa"].map(c[col])
-        p.loc[hit, "value_source"] = "sold comps"
-        p["comp_confidence"] = p["opa"].map(c["confidence"]) if "confidence" in c else None
-        p["comp_count"] = p["opa"].map(c["comp_count"]) if "comp_count" in c else None
-        p["arv"] = np.fmax(p["arv"], p["as_is_value"])
+        for col in ("as_is_value", "arv", "confidence", "comp_count"):
+            if col in c:
+                p.loc[hit, {"confidence": "comp_confidence"}.get(col, col)] = p.loc[hit, "opa"].map(c[col])
+        p.loc[hit, "value_source"] = source
+    p["arv"] = np.fmax(p["arv"], p["as_is_value"])
     if "zip_p75_price" in p:
         cap = p["zip_p75_price"] * C.ARV_CAP_X_ZIP_P75
-        p["arv_capped"] = p["arv"] > cap
+        p["arv_capped"] = (p["arv"] > cap) & (p["value_source"] != "closer comps")
         p["arv"] = p["arv"].where(~p["arv_capped"], cap)
         p["as_is_value"] = np.fmin(p["as_is_value"], p["arv"])
     return p
@@ -252,7 +258,9 @@ def lots(master, par, rents=None, underwriting=None):
         m = m.merge(r[["ZIP", "rent_per_unit"]], on="ZIP", how="left")
         units = np.where(m["property_type"].fillna("").str.contains("MULTI"), 2, 1)
         noi = m["rent_per_unit"] * C.HOLD_RENT_FACTOR * units * 12 * (1 - C.HOLD_EXPENSE_RATIO)
-        m["max_bid_hold"] = ((noi / C.VALUE_ADD_CASH_YIELD - costs_ex_bid) / (1 + C.BUYERS_PREMIUM)).round(-2)
+        by_yield = noi / C.VALUE_ADD_CASH_YIELD
+        # Don't put more into a hold than it's worth fixed up, or the refinance fails.
+        m["max_bid_hold"] = ((np.fmin(by_yield, m["arv"]) - costs_ex_bid) / (1 + C.BUYERS_PREMIUM)).round(-2)
         m["cash_yield_at_floor"] = noi / m["all_in_at_floor"]
 
     if underwriting is not None and len(underwriting):
@@ -349,6 +357,13 @@ def cut(m):
     if "score_total" not in m:
         m["list"] = "Not scored"
         return m
+    # The same property on two writs is one bid: rank the better-scoring lot.
+    key = m["OPA (all parcels)"].astype(str) if "OPA (all parcels)" in m else m["Auction ID"].astype(str)
+    order = m.sort_values("score_total", ascending=False)
+    first = order.groupby(key.loc[order.index])["Auction ID"].transform("first")
+    dup = order["Auction ID"] != first
+    m.loc[dup[dup].index, "kill_reason"] = m.loc[dup[dup].index].apply(
+        lambda r: r["kill_reason"] or f"Same property as auction {first[r.name]} (two writs); ranked there", axis=1)
     alive = m[m["kill_reason"] == ""].sort_values("score_total", ascending=False)
     m["rank"] = pd.Series(range(1, len(alive) + 1), index=alive.index)
     m["list"] = np.select(

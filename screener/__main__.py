@@ -19,6 +19,9 @@ def main():
     ap.add_argument("--parcels", required=True, help="one row per OPA number")
     ap.add_argument("--rents", help="optional CSV of zip,rent_per_unit for the value-add case")
     ap.add_argument("--comps", help="optional per-OPA sold-comp values (opa, as_is_value, arv, confidence)")
+    ap.add_argument("--refined", nargs="*", default=[],
+                    help="closer per-lot values (opa, as_is_value, arv, arv_conservative); "
+                         "arv_conservative is used where given, and the ZIP ARV cap is skipped")
     ap.add_argument("--zip-market", help="optional ZIP stats from city deeds (zip, sales_last_12m, "
                                          "median_ppsf_last_12m, ppsf_yoy_pct); overrides OPA last-sale stats")
     ap.add_argument("--underwriting", help="optional underwriting max bids (auction_id, best_exit, max_bid) "
@@ -41,7 +44,12 @@ def main():
                            "zip_p75_price": zm["p75_price_last_12m"]})
         market = market.drop(columns=["n", "psf_med", "psf_med_prev"]).merge(zm, on="zip", how="left")
     comps = pd.read_csv(args.comps, dtype={"opa": str}) if args.comps else None
-    par = screen.value(par, market, comps)
+    refined = None
+    if args.refined:
+        refined = pd.concat([pd.read_csv(f, dtype={"opa": str}) for f in args.refined])
+        if "arv_conservative" in refined:
+            refined["arv"] = refined["arv_conservative"].fillna(refined["arv"])
+    par = screen.value(par, market, comps, refined)
     rents = pd.read_csv(args.rents) if args.rents else None
     uw = pd.read_csv(args.underwriting) if args.underwriting else None
     lots = screen.cut(screen.score(screen.lots(master, par, rents, uw)))
