@@ -10,7 +10,7 @@ from . import sources
 
 log = logging.getLogger(__name__)
 
-OPEN_STATUSES = ("OPEN", "IN VIOLATION", "ACTIVE")
+OPEN_STATUSES = ("OPEN",)
 
 
 def ok(df):
@@ -29,7 +29,8 @@ def load(master_csv, parcels_csv):
     master = pd.read_csv(master_csv)
     parcels = pd.read_csv(parcels_csv)
     parcels["opa"] = opa9(parcels["OPA"])
-    parcels["ZIP"] = parcels["ZIP"].astype(str).str.zfill(5)
+    for df in (master, parcels):
+        df["ZIP"] = df["ZIP"].astype(str).str.zfill(5)
     return master, parcels
 
 
@@ -40,10 +41,11 @@ def _num(df, col):
 
 
 def _status_open(df):
-    cols = [c for c in ("violationstatus", "casestatus") if c in df]
-    if not cols:
+    # violationstatus is per violation; casestatus stays "IN VIOLATION" while
+    # any violation on the case is open, so it overcounts.
+    if "violationstatus" not in df:
         return pd.Series(False, index=df.index)
-    return df[cols].astype(str).apply(lambda r: any(v.upper() in OPEN_STATUSES for v in r), axis=1)
+    return df["violationstatus"].astype(str).str.upper().isin(OPEN_STATUSES)
 
 
 def enrich(parcels):
@@ -154,12 +156,41 @@ def band(row):
     codes = [int(c) for c in codes if pd.notna(c) and c > 0]
     if truthy(row.get("imminently_dangerous")) or truthy(row.get("unsafe")):
         return "gut"
-    if not codes:
-        return C.DEFAULT_BAND
-    return C.CONDITION_BAND.get(max(codes), C.DEFAULT_BAND)
+    found = C.CONDITION_BAND.get(max(codes), C.DEFAULT_BAND) if codes else C.DEFAULT_BAND
+    order = list(C.REHAB_PSF)
+    year = row.get("year_built")
+    if pd.notna(year) and year < 1980:
+        found = max(found, C.BLIND_MIN_BAND_BEFORE_1980, key=order.index)
+    return found
 
 
-def value(par, market):
+def value(par, market, comps=None):
+    """Quick same-ZIP value, replaced per parcel by sold-comp values when given.
+
+    comps: one row per OPA with as_is_value and arv (Market and comps thread).
+    """
+    p = _zip_value(par, market)
+    p["value_source"] = np.where(p["arv"].notna(), "same-ZIP OPA sales", None)
+    if comps is not None and len(comps):
+        c = comps.copy()
+        c["opa"] = opa9(c["opa"])
+        c = c[c["arv"].notna()].set_index("opa")
+        hit = p["opa"].isin(c.index)
+        for col in ("as_is_value", "arv"):
+            p.loc[hit, col] = p.loc[hit, "opa"].map(c[col])
+        p.loc[hit, "value_source"] = "sold comps"
+        p["comp_confidence"] = p["opa"].map(c["confidence"]) if "confidence" in c else None
+        p["comp_count"] = p["opa"].map(c["comp_count"]) if "comp_count" in c else None
+        p["arv"] = np.fmax(p["arv"], p["as_is_value"])
+    if "zip_p75_price" in p:
+        cap = p["zip_p75_price"] * C.ARV_CAP_X_ZIP_P75
+        p["arv_capped"] = p["arv"] > cap
+        p["arv"] = p["arv"].where(~p["arv_capped"], cap)
+        p["as_is_value"] = np.fmin(p["as_is_value"], p["arv"])
+    return p
+
+
+def _zip_value(par, market):
     p = par.copy()
     if not ok(market) or "opa_market_value" not in p:
         for col in ("as_is_value", "arv", "rehab"):
@@ -172,15 +203,16 @@ def value(par, market):
     est_mv = p["opa_market_value"] * p["sale_to_mv"]
     discount = p["condition_band"].map({"light": 1.0, "medium": 0.9, "heavy": 0.75, "gut": 0.6})
     est_psf = area * p["psf_med"] * discount
-    p["as_is_value"] = pd.concat([est_mv, est_psf], axis=1).mean(axis=1)
+    residential = p["property_type"].fillna("").str.startswith(C.RESIDENTIAL)
+    p["as_is_value"] = pd.concat([est_mv, est_psf], axis=1).mean(axis=1).where(residential)
     p["arv"] = np.fmax(area * p["psf_p75"], p["as_is_value"])
     psf = p["condition_band"].map(C.REHAB_PSF)
     p["rehab"] = (np.fmax(area * psf, C.REHAB_MIN) * (1 + C.REHAB_CONTINGENCY)).where(area.notna(), 0)
-    p["arv"] = p["arv"].where(area.notna(), p["as_is_value"])
+    p["arv"] = p["arv"].where(area.notna(), p["as_is_value"]).where(residential)
     return p
 
 
-def lots(master, par, rents=None):
+def lots(master, par, rents=None, underwriting=None):
     """Roll parcels up to one row per auction lot and run the money."""
     m = master.copy()
     posted = m[(m["$1 placeholder"] == "N") & m["Min bid / debt"].notna()]
@@ -219,9 +251,16 @@ def lots(master, par, rents=None):
         r["ZIP"] = r["zip"].astype(str).str.zfill(5)
         m = m.merge(r[["ZIP", "rent_per_unit"]], on="ZIP", how="left")
         units = np.where(m["property_type"].fillna("").str.contains("MULTI"), 2, 1)
-        noi = m["rent_per_unit"] * units * 12 * (1 - C.HOLD_EXPENSE_RATIO)
+        noi = m["rent_per_unit"] * C.HOLD_RENT_FACTOR * units * 12 * (1 - C.HOLD_EXPENSE_RATIO)
         m["max_bid_hold"] = ((noi / C.VALUE_ADD_CASH_YIELD - costs_ex_bid) / (1 + C.BUYERS_PREMIUM)).round(-2)
         m["cash_yield_at_floor"] = noi / m["all_in_at_floor"]
+
+    if underwriting is not None and len(underwriting):
+        # Cross-check from the underwriting model (heavier blind rehab, stricter
+        # return test). Shown next to ours, not used in the score.
+        u = underwriting.rename(columns={"auction_id": "Auction ID", "best_exit": "uw_best_exit",
+                                         "max_bid": "uw_max_bid"})
+        m = m.merge(u[["Auction ID", "uw_best_exit", "uw_max_bid"]], on="Auction ID", how="left")
     return m
 
 
@@ -239,12 +278,18 @@ def score(m):
     if "headroom" not in m:
         m["kill_reason"] = "public-record data not pulled"
         return m
-    best_bid = m[[c for c in ("max_bid_flip", "max_bid_hold") if c in m]].max(axis=1)
+    plays = [c for c in ("max_bid_flip", "max_bid_hold") if c in m]
+    best_bid = m[plays].max(axis=1)
     m["best_max_bid"] = best_bid
-    head_ratio = ((best_bid - m["floor_bid"]) / m["arv"]).clip(0, 0.5)
-    fit = np.select([m["all_in_at_floor"] <= C.IDEAL_ALL_IN_CEILING, m["all_in_at_floor"] <= C.MAX_CASH],
-                    [1.0, 0.75], 0)
-    m["score_financial"] = (head_ratio / 0.5 * 100 * fit).round(1)
+    m["best_play"] = m[plays].idxmax(axis=1).map({"max_bid_flip": "Flip", "max_bid_hold": "Hold"})
+    m["all_in_at_max_bid"] = (best_bid.clip(lower=0) * (1 + C.BUYERS_PREMIUM) + m["rehab"]
+                              + m["carry"] + m["soft_costs"]).round(-2)
+    m["max_bid_to_as_is"] = (best_bid / m["as_is_value"]).round(2)
+    lo, hi = C.FINANCIAL_SCALE
+    strength = ((m["max_bid_to_as_is"] - lo) / (hi - lo)).clip(0, 1)
+    fit = np.select([m["all_in_at_max_bid"] <= ceiling for ceiling, _ in C.SIZE_FIT],
+                    [mult for _, mult in C.SIZE_FIT], 0.4)
+    m["score_financial"] = (strength * 100 * fit).round(1)
 
     phys = pd.Series(70.0, index=m.index)
     worst = pd.concat([col(m, "exterior_condition"), col(m, "interior_condition")], axis=1).max(axis=1)
@@ -286,12 +331,17 @@ def kill_reason(r):
     if truthy(r.get("imminently_dangerous")):
         return "L&I imminently dangerous: demolition risk"
     if pd.isna(r.get("arv")):
-        return "No value estimate (missing size or ZIP sales)"
+        if ptype not in C.RESIDENTIAL:
+            return f"{ptype.title() or 'Unknown use'}: no residential comps, needs its own valuation"
+        return "No value estimate (no living area on record or no nearby sales)"
     if r["all_in_at_floor"] > C.MAX_CASH:
         return f"All-in at the opening bid ${r['all_in_at_floor']:,.0f} is over the $1M cash ceiling"
     if r["best_max_bid"] < r["floor_bid"]:
         return (f"No margin: max bid ${r['best_max_bid']:,.0f} is below the opening bid "
                 f"${r['floor_bid']:,.0f} ({r['floor_bid_basis']})")
+    if r["max_bid_to_as_is"] < C.OUTBID_SHARE_OF_AS_IS:
+        return (f"Likely outbid: max bid ${r['best_max_bid']:,.0f} is only {r['max_bid_to_as_is']:.0%} "
+                f"of as-is value ${r['as_is_value']:,.0f}")
     return ""
 
 

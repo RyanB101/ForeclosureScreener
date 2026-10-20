@@ -42,12 +42,21 @@ COLUMNS = {
     "opa_market_value": "OPA market value",
     "as_is_value": "Est. as-is value",
     "arv": "Est. ARV",
+    "value_source": "Value source",
+    "arv_capped": "ARV capped at 1.25x ZIP p75",
+    "comp_confidence": "Comp confidence",
+    "comp_count": "Comps used",
     "rehab": "Est. rehab",
     "floor_bid": "Opening bid used",
     "floor_bid_basis": "Opening bid basis",
     "Debt amount": "Debt",
     "max_bid_flip": "Max bid (flip, $50k profit)",
     "max_bid_hold": "Max bid (hold, 12%)",
+    "best_play": "Best play",
+    "max_bid_to_as_is": "Max bid / as-is",
+    "all_in_at_max_bid": "All-in at max bid",
+    "uw_best_exit": "Underwriting: best exit",
+    "uw_max_bid": "Underwriting: max bid",
     "headroom": "Headroom over opening bid",
     "profit_at_floor": "Flip profit at opening bid",
     "all_in_at_floor": "All-in at opening bid",
@@ -67,7 +76,8 @@ COLUMNS = {
 }
 MONEY = {"Last sale price", "OPA market value", "Est. as-is value", "Est. ARV", "Est. rehab",
          "Opening bid used", "Debt", "Max bid (flip, $50k profit)", "Max bid (hold, 12%)",
-         "Headroom over opening bid", "Flip profit at opening bid", "All-in at opening bid"}
+         "Headroom over opening bid", "Flip profit at opening bid", "All-in at opening bid",
+         "All-in at max bid", "Underwriting: max bid"}
 
 
 def tidy(m):
@@ -84,7 +94,7 @@ def _format(ws, df):
         if col in MONEY:
             for cell in ws[letter][1:]:
                 cell.number_format = '"$"#,##0'
-        if col == "ZIP $/sf change, 1 yr":
+        if col in ("ZIP $/sf change, 1 yr", "Max bid / as-is"):
             for cell in ws[letter][1:]:
                 cell.number_format = "0.0%"
 
@@ -106,11 +116,18 @@ def summary(m, source_status):
     ]
     lines += [(f"Source: {k}", v) for k, v in source_status.items()]
     lines += [
-        ("How to read", "Opening bid used is the floor, not the price you will pay. Headroom is how far "
-                        "the bidding can run before the deal stops meeting the target."),
-        ("Value estimate", "As-is = average of OPA market value x ZIP sale-to-assessment ratio and "
-                           "sq ft x ZIP median $/sf (discounted for condition). ARV = sq ft x ZIP 75th "
-                           "percentile $/sf. Last-12-month OPA sales. Quick screen only."),
+        ("How to read", "Opening bid used is the floor, not the price you will pay: posted opening bids "
+                        "are a median ~10% of the debt. What matters is the max bid, the most you can pay "
+                        "and still hit $50k on a flip or 12% on a hold. Max bid / as-is shows how that "
+                        "compares with what the house is worth today; the higher, the better your odds "
+                        "of winning against other bidders."),
+        ("Value estimate", "Where 'Value source' is sold comps: as-is = 25th percentile and ARV = 80th "
+                           "percentile $/sf of the nearest 30 open-market sales (Market and comps thread). "
+                           "Otherwise: average of OPA market value x ZIP sale-to-assessment ratio and sq ft "
+                           "x ZIP median $/sf discounted for condition; ARV = sq ft x ZIP 75th percentile $/sf."),
+        ("Hold case", "Rent = 85% of HUD FY2027 Small Area FMR (3BR) for the ZIP, x2 units for multi-family, "
+                      "40% expenses and vacancy, 12% yearly cash return on all-in cost. SAFMR is the "
+                      "voucher standard and can run above market rent in lower-value ZIPs."),
         ("Not checked here", "Title and lien position, current tax and water balances (the city's "
                              "public tax table is stale), occupancy, interior. Those are the next threads."),
     ]

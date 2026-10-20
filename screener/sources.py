@@ -144,7 +144,8 @@ def flood_zones(points):
     zone label. Whichever answers first is used for every parcel.
     """
     def city(lat, lng):
-        return "100-yr floodplain" if _arcgis_point(FLOOD_LAYER, lat, lng, "*") else ""
+        hits = _arcgis_point(FLOOD_LAYER, lat, lng, "fld_zone")
+        return (hits[0].get("fld_zone") or "100-yr floodplain") if hits else ""
 
     def fema(lat, lng):
         hits = _arcgis_point(FEMA_NFHL, lat, lng, "FLD_ZONE")

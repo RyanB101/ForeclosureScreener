@@ -15,8 +15,12 @@ python -m screener \
   --out-dir out/            # writes screen.xlsx and screen_shortlist.csv
 ```
 
-`--rents zip_rents.csv` (columns `zip,rent_per_unit`) adds the value-add hold case
-(12% yearly cash return) next to the flip case.
+Optional inputs:
+
+- `--comps all_parcels_values.csv`: per-OPA sold-comp `as_is_value` and `arv`, used in place of the same-ZIP estimate.
+- `--zip-market zip_market.csv`: ZIP stats from city deeds (sales count, median $/sf, YoY, p75 price). Also caps ARV at 1.25x the ZIP p75 price.
+- `--rents zip_rents.csv` (`zip,rent_per_unit`): adds the value-add hold case (12% yearly cash return) next to the flip.
+- `--underwriting max_bids.csv` (`auction_id,best_exit,max_bid`): shown as a cross-check column.
 
 Network access needed: `phl.carto.com` (OPA properties, L&I violations, permits,
 unsafe and imminently dangerous lists, recorded deeds, ZIP sales) and
@@ -28,7 +32,7 @@ and its fields are left blank (unknown), never zero.
 
 | Part | Weight | What drives it |
 |---|---|---|
-| Financial | 40% | Headroom: max bid that still clears the target, minus the opening bid, as a share of ARV. Scaled down when all-in cost is over $300k, zero over $1M |
+| Financial | 40% | Max bid (flip or hold, whichever is higher) as a share of as-is value: 30% scores 0, 100% scores 100. Scaled by size fit on all-in cost at the max bid (x1.0 up to $300k, x0.8 to $600k, x0.6 to $1M) |
 | Physical | 20% | OPA condition, age, open L&I violations, unsafe listing, recent permits, flood zone |
 | Market | 20% | ZIP sales volume (liquidity), 1-year $/sf change, $/sf level |
 | Upside | 20% | ARV vs as-is spread, zoning that allows more units, spare lot, multi-family |
@@ -36,7 +40,8 @@ and its fields are left blank (unknown), never zero.
 Elevated sale risk (repeat postponements, duplicate writs) and "watch" lots lose a
 few points. Lots are killed for: no OPA match, industrial or special-purpose use,
 L&I imminently dangerous, no value estimate, all-in over $1M at the opening bid,
-or a max bid below the opening bid.
+a max bid below the opening bid, or a max bid under 40% of as-is value (other
+bidders will almost surely pay more).
 
 Max bid (flip) = (ARV x (1 - 8.3% selling costs) - rehab - carry - legal and
 occupancy reserve - $50k profit) / 1.015 buyer's premium. Carry runs 18 months

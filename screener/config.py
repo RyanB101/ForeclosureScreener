@@ -41,21 +41,36 @@ REHAB_CONTINGENCY = 0.15             # we can't see inside
 # (6 = vacant, 7 = sealed / structurally compromised).
 CONDITION_BAND = {1: "light", 2: "light", 3: "light", 4: "medium", 5: "heavy", 6: "gut", 7: "gut"}
 DEFAULT_BAND = "heavy"               # no condition on record
+# OPA condition codes are often years old. A pre-1980 house bought blind gets
+# at least this band.
+BLIND_MIN_BAND_BEFORE_1980 = "medium"
 
 # --- Value estimate ---------------------------------------------------------
 MARKET_SALE_MIN_PRICE = 25_000       # drop nominal / family transfers
 MARKET_PSF_RANGE = (15, 1_000)
 MARKET_MIN_AREA = 400
 MARKET_CATEGORIES = ("SINGLE FAMILY", "MULTI FAMILY")
+# Cap ARV at this multiple of the ZIP's 75th-percentile sale price. Nearest-comp
+# ARVs can pick up a hot pocket and run far past what the ZIP actually sells for.
+ARV_CAP_X_ZIP_P75 = 1.25
 # $1 placeholder lots: estimate the lender's opening bid as this quantile of
 # min bid / debt across lots that have a real bid posted.
 PLACEHOLDER_BID_QUANTILE = 0.75
 
 # --- Value-add hold (only when a rent file is supplied) ---------------------
 HOLD_EXPENSE_RATIO = 0.40            # vacancy, taxes, insurance, repairs, mgmt
+HOLD_RENT_FACTOR = 0.85              # Small Area FMR runs above market rent in low-value ZIPs
 
 # --- Scoring ----------------------------------------------------------------
 WEIGHTS = {"financial": 0.40, "physical": 0.20, "market": 0.20, "upside": 0.20}
+# Third-party bidding sets the price, not the opening bid. A lot whose max bid
+# is under this share of as-is value will most likely be outbid.
+OUTBID_SHARE_OF_AS_IS = 0.40
+# Financial score runs from 0 at this share of as-is value to 100 at full as-is.
+FINANCIAL_SCALE = (0.30, 1.00)
+# Size fit on all-in cost at the max bid: (ceiling, multiplier), first match wins.
+SIZE_FIT = ((IDEAL_ALL_IN_CEILING, 1.0), (600_000, 0.8), (MAX_CASH, 0.6))
+RESIDENTIAL = ("SINGLE FAMILY", "MULTI FAMILY", "MIXED USE", "APARTMENTS")
 ELEVATED_SALE_RISK_PENALTY = 8
 WATCH_PENALTY = 4
 SHORTLIST_SIZE = 25                  # roughly half of lots get postponed or stayed
