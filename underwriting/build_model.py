@@ -59,8 +59,8 @@ ASSUMPTIONS = [
     ("BuyerPremium", "Buyer's premium", 0.015, PCT, "1.5% of price, paid with the 10% down"),
     ("DownPct", "Down payment due Nov 4", 0.10, PCT, "10% + premium by 5 PM Nov 4; $10k deposit counts toward it"),
     ("SheriffFees", "Sheriff / Bid4Assets fees per lot", 70, USD, "$35 processing + $35 balance fee"),
-    ("BidderDeposit", "Bidder deposit (credited to the Nov 4 down payment)", 10000, USD,
-     "Rules brief says $10,000; Bid4Assets listings show $5,035 due Oct 27. Being verified"),
+    ("BidderDeposit", "Bidder deposit (credited to the Nov 4 down payment)", 5000, USD,
+     "$5,000 + $35 fee, received by Bid4Assets 4 PM ET Oct 27 (wire, certified check, money order)"),
     ("RTTPurchase", "Realty transfer tax taken out of the bid", 0.04578, "0.000%",
      "Sheriff pays it from the price, before city claims"),
     ("SheriffCostsFromBid", "Sheriff costs paid from the bid before city claims", 2500, USD,
@@ -140,7 +140,7 @@ DEAL_COLUMNS = [
     ("auction_id", "Auction ID", "0", 11, ""),
     ("address", "Address", None, 22, ""),
     ("zip", "ZIP", "0", 7, ""),
-    ("open_bid", "Opening bid", USD, 11, "$1 = placeholder; hidden reserve applies"),
+    ("open_bid", "Opening bid", USD, 11, "No reserve: the minimum bid is the floor. $1 = awaiting minimum bid"),
     ("debt", "Judgment / debt", USD, 11, ""),
     ("lien_pos", "Plaintiff lien position", None, 10, "1st / 2nd / Unknown (title check)"),
     ("bldg_sf", "Building sf", NUM, 9, ""),
@@ -412,7 +412,7 @@ UW_COLUMNS = [
 RESULT_FORMULAS = {
     "best": "=IF({u:id}=\"\",\"\",IF(MAX({u:flip_max},{u:hold_max})<=0,\"Pass\",IF({u:flip_max}>={u:hold_max},\"Flip\",\"Value-add hold\")))",
     "rec_max": "=IF({u:id}=\"\",\"\",MAX({u:flip_max},{u:hold_max}))",
-    "open_check": "=IF({u:id}=\"\",\"\",IF({u:rec_max}<=0,\"Pass\",IF(N(Deals!{d:open_bid})<=1,\"Opening bid is $1: confirm reserve / upset price\","
+    "open_check": "=IF({u:id}=\"\",\"\",IF({u:rec_max}<=0,\"Pass\",IF(N(Deals!{d:open_bid})<=1,\"$1 = awaiting minimum bid; re-check the morning of Nov 3\","
                   "IF({u:rec_max}<Deals!{d:open_bid},\"Max bid below opening bid: pass\",\"Room of \"&TEXT({u:rec_max}-Deals!{d:open_bid},\"$#,##0\")&\" over opening bid\"))))",
     "rec_cash": "=IF({u:id}=\"\",\"\",IF({u:best}=\"Flip\",{u:flip_cash},IF({u:best}=\"Value-add hold\",{u:hold_cost},0)))",
     "rec_profit": "=IF({u:id}=\"\",\"\",IF({u:best}=\"Flip\",TEXT({u:flip_profit},\"$#,##0\")&\" profit, \"&TEXT({u:flip_ann},\"0%\")&\"/yr over \"&TEXT({u:flip_m},\"0\")&\" mo\","
