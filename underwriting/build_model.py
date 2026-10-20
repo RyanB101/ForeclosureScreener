@@ -37,7 +37,7 @@ NUM = "#,##0"
 MO = '0.0" mo"'
 
 FIRST_ROW = 3          # first data row on Deals / Underwriting / Ladder / Portfolio
-MAX_DEALS = 40         # formula rows pre-built so new deals can be typed in
+MAX_DEALS = 40         # spare formula rows so new deals can be typed in
 
 # ---------------------------------------------------------------------------
 # Assumptions: (name, label, value, format, note). None name = section header.
@@ -45,8 +45,9 @@ MAX_DEALS = 40         # formula rows pre-built so new deals can be typed in
 ASSUMPTIONS = [
     (None, "Targets (ryan's buy box)"),
     ("FlipTarget", "Flip: minimum profit", 50000, USD, "ryan's target: $50k profit per flip"),
-    ("FlipMinAnnROI", "Flip: minimum annualized return on cash (0 = off)", 0, PCT,
-     "Optional second test. Simple annualized: profit / peak cash / years held"),
+    ("FlipMinAnnROI", "Flip: minimum annualized return on cash (0 = off)", 0.15, PCT,
+     "Second test so big-ticket flips can't pass on $50k alone over a 2-year hold. "
+     "Simple annualized: profit / peak cash / years held. Suggested, pending ryan's call"),
     ("FlipCeiling", "Flip: all-in cost ceiling (bid + rehab + costs)", 300000, USD,
      "Ideal box. A deal over this is flagged, not excluded"),
     ("HoldTarget", "Value-add: target annual return", 0.12, PCT, "ryan's target: 12%"),
@@ -649,7 +650,20 @@ def load_deals(path):
     return deals
 
 
+def set_assumptions(overrides):
+    """Apply NAME=value overrides to the assumption defaults."""
+    for i, item in enumerate(ASSUMPTIONS):
+        if item[0] in overrides:
+            name, label, value, fmt, note = item
+            new = overrides.pop(name)
+            ASSUMPTIONS[i] = (name, label, new if isinstance(value, str) else float(new), fmt, note)
+    if overrides:
+        raise SystemExit(f"Unknown assumptions: {', '.join(overrides)}")
+
+
 def build(deals, out):
+    global MAX_DEALS
+    MAX_DEALS = max(MAX_DEALS, len(deals) + 10)
     wb = Workbook()
     build_readme(wb)
     build_assumptions(wb)
@@ -667,8 +681,6 @@ def main():
     ap.add_argument("-o", "--out", default=str(HERE / "underwriting_model.xlsx"))
     args = ap.parse_args()
     deals = load_deals(args.deals) if args.deals else EXAMPLE_DEALS
-    if len(deals) > MAX_DEALS:
-        raise SystemExit(f"{len(deals)} deals; raise MAX_DEALS")
     print(build(deals, args.out))
 
 

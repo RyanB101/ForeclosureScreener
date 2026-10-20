@@ -72,7 +72,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("deals", nargs="?")
     ap.add_argument("--out-dir", default=str(build_model.HERE))
+    ap.add_argument("--set", action="append", default=[], metavar="NAME=VALUE",
+                    help="Override an assumption, e.g. --set FlipMinAnnROI=0.15")
     args = ap.parse_args()
+    build_model.set_assumptions(dict(kv.split("=", 1) for kv in args.set))
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     deals = build_model.load_deals(args.deals) if args.deals else build_model.EXAMPLE_DEALS

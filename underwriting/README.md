@@ -14,7 +14,7 @@ hits ryan's targets, and profit and return at a ladder of bids.
 
 | Exit | Test | Max bid is the highest bid where... |
 |---|---|---|
-| Flip | $50k profit (optional minimum annualized return) | ARV less selling costs, rehab, carry, legal, possession, liens, fees and premium leaves $50k |
+| Flip | $50k profit and at least 15%/yr on cash (the 15% is adjustable; 0 turns it off) | ARV less selling costs, rehab, carry, legal, possession, liens, fees and premium leaves $50k |
 | Value-add hold | 12% **yield on cost** by default (stabilized NOI / all-in cost, unlevered); switchable to cash-on-cash after a DSCR refi | NOI / all-in cost >= 12% |
 | Wholesale | Assign the bid to a flipper who needs 15% of ARV; keep a $15k fee | Shown as an alternative |
 | Teardown / added units | Greater of $50k or 15% of sale revenue | Shown when units possible is filled in |
@@ -25,3 +25,10 @@ hits ryan's targets, and profit and return at a ladder of bids.
 Sheriff costs, then city claims: any claims the bid does not cover survive and are counted as cost. Sale to
 recorded deed 12 months; occupied adds 5 months and a possession cost. Rehab is blind: $/sf by scope plus 20%
 contingency plus a $10k allowance plus anything visible from the street.
+
+## Pre-screen of the whole list
+
+`prescreen_inputs.py PROJECT_FILES -o deals.csv --skipped skipped.csv` joins the auction list to the
+Market and comps values and HUD rents for every single-parcel residential lot, with blind defaults
+(Heavy rehab before 1990, Medium after; occupancy unknown, so treated as occupied; lien position unknown).
+Run `run_model.py deals.csv` on it to rank the whole list before the title check.
