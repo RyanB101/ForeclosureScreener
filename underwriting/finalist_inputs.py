@@ -12,12 +12,18 @@ With --values (Market and comps' per-lot file), its ARV, as-is value and
 HUD rent at the lot's bedroom count replace the screen's; hot-pocket lots use
 the conservative ARV.
 
+With --title (the title and lien check), its lien position and surviving cost
+fill those inputs: the worst case for --case worst, else the base case. Its
+6 months of condo/HOA dues become the monthly HOA input instead.
+
 Usage:
-    python finalist_inputs.py SHORTLIST_CSV RENTS_CSV [--values VALUES_CSV] -o deals.csv
+    python finalist_inputs.py SHORTLIST_CSV RENTS_CSV [--values VALUES_CSV]
+        [--title TITLE_CSV --case base|worst] -o deals.csv
 """
 
 import argparse
 import csv
+import re
 
 CONDO_HOA_MO = 250   # estimate until the association's figure is known
 
@@ -50,8 +56,14 @@ def main():
     ap.add_argument("shortlist")
     ap.add_argument("rents")
     ap.add_argument("--values")
+    ap.add_argument("--title")
+    ap.add_argument("--case", choices=["base", "worst"], default="base")
     ap.add_argument("-o", "--out", required=True)
     args = ap.parse_args()
+    title = {}
+    if args.title:
+        with open(args.title, newline="") as f:
+            title = {r["Auction ID"]: r for r in csv.DictReader(f)}
     values = {}
     if args.values:
         with open(args.values, newline="") as f:
@@ -98,14 +110,25 @@ def main():
                 notes = [n for n in notes if not n.startswith("ARV capped")]
                 if hot:
                     notes.append("hot pocket: conservative ARV used")
+            lien_pos, surv, hoa_mo = "Unknown", "", CONDO_HOA_MO if condo else ""
+            t = title.get(row["Auction ID"])
+            if t:
+                pos = t["Lien position of foreclosing mortgage"]
+                lien_pos = "1st" if pos.endswith("1st") else "2nd" if "junior" in pos else "Unknown"
+                surv = num(t["Surviving cost, worst case" if args.case == "worst" else "Surviving cost, base case"], 0)
+                hoa = re.search(r"condo/HOA 6 mo \$([\d,]+)", t["Cost basis"] or "")
+                if hoa:
+                    six = num(hoa.group(1).replace(",", ""))
+                    hoa_mo, surv = six / 6, surv - six
+                notes.append(f"title: {t['Verdict']}")
             deals.append(dict(
                 auction_id=row["Auction ID"], address=row["Address"], zip=zip_code,
-                open_bid=num(row["Opening bid used"]), debt=num(row["Debt"], ""), lien_pos="Unknown",
+                open_bid=num(row["Opening bid used"]), debt=num(row["Debt"], ""), lien_pos=lien_pos,
                 bldg_sf=num(row["Livable sq ft"]), lot_sf=num(row["Lot sq ft"], ""),
                 year_built=int(num(row["Year built"], 0)) or "", units=2 if multi else 1,
                 opa_value=num(row["OPA market value"], ""), asis_value=asis,
                 arv=arv, rent=rent, scope=scope_for(row), ext_adders=adders,
-                occupancy=occupancy, hoa_mo=CONDO_HOA_MO if condo else "",
+                occupancy=occupancy, surv_liens=surv, hoa_mo=hoa_mo,
                 notes="; ".join(notes),
             ))
     with open(args.out, "w", newline="") as f:

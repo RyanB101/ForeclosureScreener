@@ -2,6 +2,11 @@
 
 Usage:
     python business_plans.py MODEL_XLSX DEALS_CSV SHORTLIST_CSV -o plans.md [--csv verdicts.csv]
+        [--title TITLE_CSV --base-max-bids MAX_BIDS_CSV]
+
+With --title, lots the title check kills become Pass, and lots it says to verify
+become "Hold: verify docket", shown at their worst-case max bid alongside the
+base-case max bid from --base-max-bids.
 """
 
 import argparse
@@ -28,6 +33,21 @@ def load_assumptions(wb):
     return out
 
 
+def title_verdict(v, why, t, base_max, worst_max):
+    if not t:
+        return v, why
+    tv = t["Verdict"]
+    if tv.startswith("KILL"):
+        return "Pass", "title check: the plaintiff likely holds the 2nd mortgage, so the 1st survives"
+    if tv.startswith("VERIFY"):
+        if "Old case" in (t["Red flags"] or "") and base_max == worst_max:
+            return "Hold: verify docket", ("set-aside and title-insurance risk from an old case; get an attorney's read "
+                                           f"before bidding (max bid {money(base_max)} if cleared)")
+        return "Hold: verify docket", (f"bid only if the docket shows the plaintiff holds the 1st mortgage: then the max bid is "
+                                       f"{money(base_max)}; if a senior mortgage survives it's {money(worst_max)}")
+    return v, why
+
+
 def verdict(u, deal):
     open_bid = deal["open_bid"] or 0
     mx = u["Max bid that hits target"] or 0
@@ -43,7 +63,7 @@ def verdict(u, deal):
     return "Bid", f"{money(room)} of room over the {'estimated ' if estimated else ''}opening bid"
 
 
-def checks(deal, s, u):
+def checks(deal, s, u, t=None):
     out = []
     occ = deal["occupancy"]
     if occ == "Occupied":
@@ -70,7 +90,21 @@ def checks(deal, s, u):
         out.append("City records call this parcel vacant industrial land: confirm a house actually stands on it")
     if "est." in deal["notes"]:
         out.append("Opening bid not posted yet (21% of debt used): re-check the minimum the morning of Nov 3")
-    out.append("Title check: plaintiff in 1st position, tax and water balances, IRS liens, bankruptcy")
+    if t:
+        flags = [f for f in (t["Red flags"] or "").split(" | ") if f]
+        for f in flags:
+            out.append(f"Title: {f}")
+        if "federal junior" in t["Verdict"]:
+            out.append("Junior HUD lien: the U.S. can redeem for 1 year after the sale. The 12-month deed wait already "
+                       "covers that year; if the deed comes early, don't start the rehab before month 12. "
+                       "Check the docket shows the U.S. was served")
+        if t["Case ID (FJD docket search)"]:
+            out.append(f"Docket (fjdefile.phila.gov, Case ID {t['Case ID (FJD docket search)']}): plaintiff's name, "
+                       "stays, bankruptcy suggestions")
+        out.append("Live tax and water balances on phila.gov; IRS liens and judgments (title company O&E search); "
+                   "PACER for bankruptcy the morning of the sale")
+    else:
+        out.append("Title check: plaintiff in 1st position, tax and water balances, IRS liens, bankruptcy")
     return out
 
 
@@ -81,7 +115,16 @@ def main():
     ap.add_argument("shortlist")
     ap.add_argument("-o", "--out", required=True)
     ap.add_argument("--csv")
+    ap.add_argument("--title")
+    ap.add_argument("--base-max-bids")
     args = ap.parse_args()
+    title, base_max = {}, {}
+    if args.title:
+        with open(args.title, newline="") as f:
+            title = {r["Auction ID"]: r for r in csv.DictReader(f)}
+    if args.base_max_bids:
+        with open(args.base_max_bids, newline="") as f:
+            base_max = {r["auction_id"]: float(r["max_bid"] or 0) for r in csv.DictReader(f)}
 
     wb = load_workbook(args.model, data_only=True)
     a = load_assumptions(wb)
@@ -97,11 +140,13 @@ def main():
     with open(args.shortlist, newline="") as f:
         shortlist = {r["Auction ID"]: r for r in csv.DictReader(f)}
 
-    order = {"Bid": 0, "Bid (over the $300k box)": 1, "Marginal": 2, "Pass": 3}
+    order = {"Bid": 0, "Bid (over the $300k box)": 1, "Hold: verify docket": 2, "Marginal": 3, "Pass": 4}
     rows = []
     for aid, deal in deals.items():
         u = uw[aid]
         v, why = verdict(u, deal)
+        mx = u["Max bid that hits target"] or 0
+        v, why = title_verdict(v, why, title.get(aid), base_max.get(aid, mx), mx)
         rows.append((order[v], -(u["Max bid that hits target"] or 0), aid, v, why))
     rows.sort()
 
@@ -109,7 +154,10 @@ def main():
              "Prepared Oct 20, 2026 from the underwriting model (`underwriting_model.xlsx`, same folder). "
              "Values are today's sold comps held flat; rents are HUD FY2027 Small Area FMRs; rehab is a blind budget. "
              "Max bid is the most you can pay and still make $50k and 15%/yr on cash on a flip, or 12% yield on cost on a hold. "
-             "It's a ceiling, not a target, and it assumes no title surprises.", "",
+             "It's a ceiling, not a target. "
+             + ("Surviving liens come from the title and lien check (`title-liens/`): base case for clean lots, worst case "
+                "for lots still to verify on the docket. IRS liens, judgments and bankruptcy weren't checkable."
+                if title else "It assumes no title surprises."), "",
              "## Summary", "",
              "| # | Address | Verdict | Exit | Opening bid | Max bid | All-in cash | Return at max bid |",
              "|---|---|---|---|---|---|---|---|"]
@@ -147,6 +195,12 @@ def main():
         lines.append(f"- **Rehab scope:** {d['scope']}, blind budget {money(u['Rehab budget (blind)'])} "
                      f"(includes 20% contingency and the $10k allowance"
                      + (f", plus {money(float(d['ext_adders']))} for exterior/vacancy" if float(d['ext_adders'] or 0) else "") + ").")
+        surv = float(d.get("surv_liens") or 0) + float(d.get("hoa_mo") or 0) * a["HOAArrearsMonths"]
+        if title.get(aid):
+            lines.append(f"- **Surviving liens budgeted:** {money(surv)} ({title[aid]['Cost basis']}"
+                         + ("; includes a possible senior mortgage" if v.startswith("Hold") and surv > 10000
+                            and "worst case" not in title[aid]["Cost basis"] else "")
+                         + f"). Title verdict: {title[aid]['Verdict']}.")
         deed, ej, rm = a["DeedMonths"], a["EjectMonths"] * occ, u["Rehab months"]
         if exit_ == "Value-add hold":
             tl = (f"{deed:.0f} mo to deed" + (f", {ej:.0f} mo to get possession" if ej else "")
@@ -169,12 +223,13 @@ def main():
         lines.append("- **Returns:** " + "; ".join(cells) + ".")
         lines.append(f"- **Rent assumed:** {money(d['rent'])}/mo (HUD SAFMR), NOI {money(u['Hold: stabilized NOI / yr'])}/yr.")
         lines.append("- **Check in person and at the courthouse:**")
-        for c in checks(d, s, u):
+        for c in checks(d, s, u, title.get(aid)):
             lines.append(f"  - {c}")
         lines.append("")
         csv_rows.append(dict(auction_id=aid, address=u["Address"], verdict=v, reason=why, best_exit=exit_,
                              opening_bid=d["open_bid"], opening_bid_estimated="est." in d["notes"],
-                             max_bid=round(mx), all_in_cash=round(u["All-in cash at max bid"] or 0),
+                             max_bid=round(mx), base_case_max_bid=round(base_max.get(aid, mx)),
+                             title_verdict=(title.get(aid) or {}).get("Verdict", ""), all_in_cash=round(u["All-in cash at max bid"] or 0),
                              result_at_max=u["Profit / return at max bid"] or ""))
 
     lines += ["## What would change these numbers", "",
