@@ -44,6 +44,7 @@ COLUMNS = {
     "arv": "Est. ARV",
     "value_source": "Value source",
     "arv_capped": "ARV capped at 1.25x ZIP p75",
+    "hot_pocket": "Hot-pocket block (conservative ARV used)",
     "comp_confidence": "Comp confidence",
     "comp_count": "Comps used",
     "rehab": "Est. rehab",

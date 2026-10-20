@@ -22,6 +22,8 @@ def main():
     ap.add_argument("--refined", nargs="*", default=[],
                     help="closer per-lot values (opa, as_is_value, arv, arv_conservative); "
                          "arv_conservative is used where given, and the ZIP ARV cap is skipped")
+    ap.add_argument("--lot-values", help="closer values per auction lot (auction_id, as_is_value, arv, "
+                                         "arv_conservative, confidence); overrides parcel values")
     ap.add_argument("--zip-market", help="optional ZIP stats from city deeds (zip, sales_last_12m, "
                                          "median_ppsf_last_12m, ppsf_yoy_pct); overrides OPA last-sale stats")
     ap.add_argument("--underwriting", help="optional underwriting max bids (auction_id, best_exit, max_bid) "
@@ -52,7 +54,8 @@ def main():
     par = screen.value(par, market, comps, refined)
     rents = pd.read_csv(args.rents) if args.rents else None
     uw = pd.read_csv(args.underwriting) if args.underwriting else None
-    lots = screen.cut(screen.score(screen.lots(master, par, rents, uw)))
+    lot_values = pd.read_csv(args.lot_values) if args.lot_values else None
+    lots = screen.cut(screen.score(screen.lots(master, par, rents, uw, lot_values)))
 
     out = Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)

@@ -218,8 +218,13 @@ def _zip_value(par, market):
     return p
 
 
-def lots(master, par, rents=None, underwriting=None):
-    """Roll parcels up to one row per auction lot and run the money."""
+def lots(master, par, rents=None, underwriting=None, lot_values=None):
+    """Roll parcels up to one row per auction lot and run the money.
+
+    lot_values: closer values per auction lot (auction_id, as_is_value, arv,
+    arv_conservative, confidence, comp_count). They replace the parcel-level
+    values for every lot they cover, including a blank where comps were too thin.
+    """
     m = master.copy()
     posted = m[(m["$1 placeholder"] == "N") & m["Min bid / debt"].notna()]
     ratio = posted["Min bid / debt"].quantile(C.PLACEHOLDER_BID_QUANTILE)
@@ -237,6 +242,21 @@ def lots(master, par, rents=None, underwriting=None):
         if flag in par:
             lot[flag] = par.groupby("Auction ID")[flag].apply(lambda s: bool(s.fillna(False).astype(bool).any()))
     m = m.merge(lot.reset_index(), on="Auction ID", how="left")
+    if lot_values is not None and len(lot_values):
+        v = lot_values.drop_duplicates("auction_id").set_index("auction_id")
+        arv = v["arv_conservative"].fillna(v["arv"]) if "arv_conservative" in v else v["arv"]
+        hit = m["Auction ID"].isin(v.index)
+        ids = m.loc[hit, "Auction ID"]
+        m.loc[hit, "as_is_value"] = ids.map(v["as_is_value"])
+        m.loc[hit, "arv"] = np.fmax(ids.map(arv), ids.map(v["as_is_value"]))
+        m.loc[hit, "comp_confidence"] = ids.map(v["confidence"])
+        if "comp_count" in v:
+            m.loc[hit, "comp_count"] = ids.map(v["comp_count"])
+        m.loc[hit, "value_source"] = "closer comps"
+        if "arv_capped" in m:
+            m.loc[hit, "arv_capped"] = False
+        if "hot_pocket" in v:
+            m["hot_pocket"] = m["Auction ID"].map(v["hot_pocket"]).eq("Y")
     if "arv" not in m or m["arv"].isna().all():
         return m
 
