@@ -8,8 +8,12 @@ ARV) and HUD Small Area FMR rents, with blind-rehab rules:
   boarding, cleanout and break-in damage.
 Occupancy: vacancy flag -> Vacant, owner may live there -> Occupied, else Unknown.
 
+With --values (Market and comps' per-lot file), its ARV, as-is value and
+HUD rent at the lot's bedroom count replace the screen's; hot-pocket lots use
+the conservative ARV.
+
 Usage:
-    python finalist_inputs.py SHORTLIST_CSV RENTS_CSV -o deals.csv
+    python finalist_inputs.py SHORTLIST_CSV RENTS_CSV [--values VALUES_CSV] -o deals.csv
 """
 
 import argparse
@@ -45,8 +49,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("shortlist")
     ap.add_argument("rents")
+    ap.add_argument("--values")
     ap.add_argument("-o", "--out", required=True)
     args = ap.parse_args()
+    values = {}
+    if args.values:
+        with open(args.values, newline="") as f:
+            values = {r["auction_id"]: r for r in csv.DictReader(f)}
     with open(args.rents, newline="") as f:
         rents = {r["zip"]: r for r in csv.DictReader(f)}
     deals = []
@@ -77,13 +86,25 @@ def main():
                 notes.append(f"condo: HOA ${CONDO_HOA_MO}/mo is an estimate")
             if violations:
                 notes.append(f"open L&I: {violations}")
+            arv, asis = num(row["Est. ARV"]), num(row["Est. as-is value"], "")
+            v = values.get(row["Auction ID"])
+            if v:
+                hot = v["hot_pocket"] == "Y"
+                arv = num(v["arv_conservative"] if hot else v["arv"])
+                asis = num(v["as_is_value"], asis)
+                if not multi:
+                    rent = num(v["hud_rent_at_beds"]) or num(v["hud_rent_3br"]) or rent
+                notes[2] = f"comps {v['confidence'] or 'n/a'}"
+                notes = [n for n in notes if not n.startswith("ARV capped")]
+                if hot:
+                    notes.append("hot pocket: conservative ARV used")
             deals.append(dict(
                 auction_id=row["Auction ID"], address=row["Address"], zip=zip_code,
                 open_bid=num(row["Opening bid used"]), debt=num(row["Debt"], ""), lien_pos="Unknown",
                 bldg_sf=num(row["Livable sq ft"]), lot_sf=num(row["Lot sq ft"], ""),
                 year_built=int(num(row["Year built"], 0)) or "", units=2 if multi else 1,
-                opa_value=num(row["OPA market value"], ""), asis_value=num(row["Est. as-is value"], ""),
-                arv=num(row["Est. ARV"]), rent=rent, scope=scope_for(row), ext_adders=adders,
+                opa_value=num(row["OPA market value"], ""), asis_value=asis,
+                arv=arv, rent=rent, scope=scope_for(row), ext_adders=adders,
                 occupancy=occupancy, hoa_mo=CONDO_HOA_MO if condo else "",
                 notes="; ".join(notes),
             ))

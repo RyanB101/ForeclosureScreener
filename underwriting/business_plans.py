@@ -61,9 +61,11 @@ def checks(deal, s, u):
         out.append("Condo: get the HOA's monthly dues and 6 months of arrears (they survive); $250/mo is a placeholder")
     if deal["units"] == 2:
         out.append("Count meters and doorbells to confirm two units, and check the rental license and zoning use")
-    if s["Comp confidence"] in ("Low", "Medium") or "capped" in deal["notes"]:
-        out.append(f"ARV is soft (comps {s['Comp confidence'] or 'n/a'}{', capped' if 'capped' in deal['notes'] else ''}): "
-                   "walk the block for renovated sales and list prices")
+    if "hot pocket" in deal["notes"]:
+        out.append("Hot pocket: the ARV used is the conservative one. See whether the block itself has renovated houses; "
+                   "if it does, the full ARV may hold and the max bid rises")
+    elif "comps Medium" in deal["notes"] or "comps Low" in deal["notes"] or "capped" in deal["notes"]:
+        out.append("ARV is soft (medium-confidence comps): walk the block for renovated sales and list prices")
     if "VACANT LAND" in s["Building type"]:
         out.append("City records call this parcel vacant industrial land: confirm a house actually stands on it")
     if "est." in deal["notes"]:
@@ -90,7 +92,7 @@ def main():
         if row[0]:
             uw[str(row[0])] = dict(zip(headers, row))
     with open(args.deals, newline="") as f:
-        deals = {r["auction_id"]: {k: (float(v) if k in ("open_bid", "arv", "rent", "bldg_sf", "units") and v else v)
+        deals = {r["auction_id"]: {k: ((float(v) if v else 0.0) if k in ("open_bid", "arv", "rent", "bldg_sf", "units") else v)
                                    for k, v in r.items()} for r in csv.DictReader(f)}
     with open(args.shortlist, newline="") as f:
         shortlist = {r["Auction ID"]: r for r in csv.DictReader(f)}
