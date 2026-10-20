@@ -44,6 +44,7 @@ def main():
     ap.add_argument("master")
     ap.add_argument("-o", "--out", default="bid_sheet.xlsx")
     ap.add_argument("--cap", type=float, default=900_000)
+    ap.add_argument("--verdicts", help="finalist_verdicts.csv; keeps lots whose verdict starts with Bid")
     ap.add_argument("--flip-target", type=float, default=50_000)
     ap.add_argument("--flip-walk-profit", type=float, default=25_000)
     ap.add_argument("--hold-target", type=float, default=0.12)
@@ -54,6 +55,10 @@ def main():
     if bids.empty:
         print("max_bids.csv has no rows yet")
         return
+    if args.verdicts:
+        v = pd.read_csv(args.verdicts, usecols=["auction_id", "verdict"])
+        bids = bids.merge(v, on="auction_id", how="left")
+        bids = bids[bids["verdict"].fillna("").str.startswith("Bid")]
     master = pd.read_csv(args.master, usecols=["Auction ID", "Bidding closes", "Close slot",
                                                "Minimum bid", "Sale risk", "Bid4Assets link"])
     df = bids.merge(master, left_on="auction_id", right_on="Auction ID", how="left")
@@ -68,7 +73,7 @@ def main():
     df["due_nov4_at_max"] = (df["max_bid"] * (0.10 + PREMIUM)).round()
     df["due_nov18_at_max"] = (df["max_bid"] * 0.90 + 35).round()
 
-    cols = ["Close slot", "auction_id", "address", "best_exit", "Minimum bid", "max_bid", "walk_away",
+    cols = ["Close slot", "auction_id", "address", "verdict", "best_exit", "Minimum bid", "max_bid", "walk_away",
             "all_in_cash", "running_committed", "over_cap_if_all_won", "due_nov4_at_max",
             "due_nov18_at_max", "below_opening", "Sale risk", "flags"]
     out = df[[c for c in cols if c in df.columns]]
