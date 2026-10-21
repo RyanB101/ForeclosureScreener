@@ -1,0 +1,7 @@
+auction_id,address,zip,open_bid,debt,lien_pos,bldg_sf,lot_sf,year_built,units,opa_value,asis_value,arv,rent,scope,ext_adders,occupancy,surv_liens,city_claims,hoa_mo,td_units,td_sf,td_value_unit,notes
+1311464-0,"0 Prior screen (ARV 298k, HUD rent 2020, HOA 250)",19146,11600,127712,1st,480,0,1900,1,201800,206000,298000,2020,Medium,0,Occupied,2500,,250,,,,
+1311464-1,"1 Revised base: ARV 210k, Medium rehab",19146,11600,127712,1st,480,0,1900,1,201800,185000,210000,1525,Medium,0,Occupied,2500,,280,,,,
+1311464-2,"2 Light refresh, ARV 205k",19146,11600,127712,1st,480,0,1900,1,201800,185000,205000,1525,Light,0,Occupied,2500,,280,,,,
+1311464-3,3 Upside: full reno sells 230k,19146,11600,127712,1st,480,0,1900,1,201800,185000,230000,1525,Medium,0,Occupied,2500,,280,,,,
+1311464-4,"4 Downside: ARV 200k, HOA 300, +5k deck fix",19146,11600,127712,1st,480,0,1900,1,201800,185000,200000,1525,Medium,5000,Occupied,2500,,300,,,,
+1311464-5,"5 Vacant at sale, ARV 210k",19146,11600,127712,1st,480,0,1900,1,201800,185000,210000,1525,Medium,0,Vacant,2500,,280,,,,
