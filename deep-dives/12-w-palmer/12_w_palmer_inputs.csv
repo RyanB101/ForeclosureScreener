@@ -1,0 +1,7 @@
+auction_id,address,zip,open_bid,debt,lien_pos,bldg_sf,lot_sf,year_built,units,opa_value,asis_value,arv,rent,scope,ext_adders,occupancy,surv_liens,city_claims,hoa_mo,td_units,td_sf,td_value_unit,notes
+1311511-0,"0 Prior screen (ARV 695k, Medium, occupied)",19125,27200,329601,1st,1728,1113,1925,1,409100,452000,695000,2750,Medium,0,Occupied,2500,,,,,,12 W Palmer deep dive scenario
+1311511-1,"1 Base: ARV 675k, Heavy (stalled 2019 demo), vacant",19125,27200,329601,1st,1728,1113,1925,1,409100,380000,675000,3200,Heavy,0,Vacant,2500,,,,,,12 W Palmer deep dive scenario
+1311511-2,2 Base but occupied (squatter/holdover),19125,27200,329601,1st,1728,1113,1925,1,409100,380000,675000,3200,Heavy,0,Occupied,2500,,,,,,12 W Palmer deep dive scenario
+1311511-3,"3 Downside: ARV 640k, Gut, vacant",19125,27200,329601,1st,1728,1113,1925,1,409100,350000,640000,3000,Gut,0,Vacant,2500,,,,,,12 W Palmer deep dive scenario
+1311511-4,"4 Upside: ARV 710k, Heavy, vacant",19125,27200,329601,1st,1728,1113,1925,1,409100,400000,710000,3400,Heavy,0,Vacant,2500,,,,,,12 W Palmer deep dive scenario
+1311511-5,"5 Junior plaintiff: base + $300k senior survives",19125,27200,329601,2nd,1728,1113,1925,1,409100,380000,675000,3200,Heavy,0,Vacant,302500,,,,,,12 W Palmer deep dive scenario
