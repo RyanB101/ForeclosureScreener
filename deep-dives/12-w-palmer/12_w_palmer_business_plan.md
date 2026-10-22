@@ -1,7 +1,9 @@
 # 12 W Palmer St (19125): deep dive and business plan
 
 Auction 1311511 · Book-Writ 2609-427 · OPA 183022400 · Nov 3, 2026, closes 1:10 PM · posted minimum $27,200
-Researched 2026-10-22. LandVision, Zillow history/comps/listing photos and PhilaDox pulls are pending from the Chrome research thread and will be folded in when they land in `sources/`.
+Researched 2026-10-22. Updated the same day with the LandVision, Zillow, Redfin, PhilaDox and full-docket pulls in `sources/`.
+
+**Address note:** LandVision, Redfin and the Zillow carousel index this parcel as **12 E Palmer St**. The city (OPA 183022400), the sheriff and the court use 12 W Palmer. The parcel and coordinates are the same, so this is one house. Bid on the OPA number.
 
 ## Verdict
 
@@ -13,10 +15,11 @@ The title flag that held this lot is resolved in our favor. The plaintiff is **N
 
 | Date | Event | Source |
 |---|---|---|
-| 2019-08-01 | Charles H. Prem buys from Linda Hepworth for $237,000, financed with a MERS/Mortgage America purchase mortgage recorded the same minute | City RTT |
-| 2019-09-16 | Takes out a Figure Lending HELOC on the house, six weeks after buying it | City RTT |
+| 2019-08-01 | Charles H. Prem buys from Linda Hepworth for $237,000 with a **$225,150** Mortgage America conventional purchase mortgage (95% LTV, due 2049), recorded the same minute | City RTT, LandVision |
+| 2019-09-16 | Takes out a **$77,250** Figure Lending open-end HELOC six weeks after buying. Total debt is now $302,400 on a $237,000 house (128% of the price) | City RTT, LandVision |
 | 2019-10-10 | Refinances his other Fishtown house, 1471 E Wilt St, with Homeside Financial | City RTT |
 | 2019-10-18 | Pulls an EZ permit for interior non-load-bearing wall and ceiling demolition. It expired with no follow-up building, plumbing or electrical permits | L&I permits |
+| Oct 2021–Jun 2022 | **Tries to sell and can't.** Listed at $400k on 10/5/2021, cut to $380k and then $353k, pulled 3/2022. Relisted at $352k on 5/20/2022 and pulled 6/30/2022 unsold. No interior photos were kept | Redfin (Bright MLS PAPH2029320) |
 | 2022 | Tax lien (paid Oct 2022) and a water lien (still open) filed on the house | FJD docket |
 | Nov 2022 | Both his mortgages go to foreclosure within three weeks: NewRez on Palmer ($259,622 claimed) and Andrews FCU on Wilt. Amex sues him on a credit card | FJD docket |
 | Mar–Aug 2023 | Bankruptcy 23-10682-AMC, dismissed about August 2023 | FJD docket |
@@ -27,17 +30,17 @@ The title flag that held this lot is resolved in our favor. The plaintiff is **N
 | 2026-06-02 | 1471 E Wilt St sells at sheriff sale to the lender's firm (KML) for $176,000 against a $222,378 judgment | FJD docket |
 | Oct 2025–Nov 2026 | Five plaintiff postponements, the last to Nov 3, 2026 | FJD docket |
 
-**Read:** Prem bought a dated Fishtown row in 2019 at $237k, pulled cash with a HELOC, started an interior demo, and appears to have run out of money (COVID timing). He defaulted on both properties by 2022, his bankruptcy failed, and he has walked away. This is a true forced sale. The owner is gone, has no equity to protect at a $330k+ payoff, and has filed nothing in three years. A pre-sale deal with him isn't practical: the court and the lender can't find him, and any short sale would need NewRez's consent 12 days out. The bargain has to come at the auction.
+**Read:** Prem bought a dated Fishtown row in 2019 at $237k with almost no equity, then borrowed another $77k against it, started an interior demo, and appears to have run out of money (COVID timing). In 2021–22 he tried to sell at $352–400k, which barely covered his ~$300k of debt. The market would not pay even $352k ($204/sf) for it as it stood, which suggests a half-done or rough interior. He defaulted on both properties by 2022, his bankruptcy failed, and he has walked away. This is a true forced sale. The owner is gone, has no equity to protect at a $330k+ payoff, and has filed nothing in three years. A pre-sale deal with him isn't practical: the court and the lender can't find him, and any short sale would need NewRez's consent 12 days out. The bargain has to come at the auction.
 
 He is not a career investor with a portfolio. His other recorded properties are family homes in Northeast Philly (3715 President St, which went through an Ocwen loan modification and a HUD partial-claim mortgage in 2015–16). That fits an owner who over-reached on one project.
 
 ## Title and liens
 
-- **Plaintiff holds the first (inferred, strong).** NewRez sued alone. The claim ($259.6k in 2022) is far above any plausible HELOC on a $237k house, the 4.5% rate is a 2019 first-mortgage rate, and Shellpoint (the plaintiff) is the servicer that registered the vacancy. The complaint PDF itself is behind the FJD paywall and was not read. The coming PhilaDox pull or a $5 copy of the complaint would make this certain.
+- **Plaintiff holds the first (confirmed as far as public records go).** NewRez/Shellpoint is the only plaintiff on the docket, and neither Figure nor Green Lake appears anywhere in the case. LandVision shows the HELOC was only $77,250, so a $259.6k complaint at 4.5% can only be the $225,150 purchase first mortgage. The complaint PDF itself is still paywalled and unread.
 - **The April 2026 assignment to JPMorgan** of the Mortgage America mortgage is consistent with NewRez servicing for JPMorgan. No substitution of plaintiff is on the docket, which is normal.
 - **Figure/Green Lake HELOC:** junior, divested by the sale.
-- **2008 HSBC/Christiana mortgage of the prior owner:** no recorded satisfaction, but the 2019 arm's-length sale at $237k would have paid it off through title. This is a cleanup item, not a real lien. Budget nothing; flag it to the title company.
-- **Prior-owner chain:** the 2008 deed added Steven Polit and Patricia Weinberger, but only Linda Hepworth signed the 2019 deed. That most likely reflects deaths in a survivorship tenancy. The sheriff deed cuts off Prem's chain anyway, but ask title to confirm.
+- **2008 HSBC/Christiana mortgage of the prior owner:** only $80,000 (LandVision). It has no recorded satisfaction, but the 2019 sale closed through Properties Abstract, which would have paid it off. This is a cleanup item, not a real lien. Budget nothing; flag it to the title company.
+- **Prior-owner chain:** clean. Steven Polit quitclaimed to Linda Hepworth in March/April 2018 (LandVision), so she alone could sell in 2019.
 - **City claims:** water lien 2207W22009205 (2022) is open, and the 2022 tax lien is satisfied. The city's $2,500 reserve covers the likely amount; check the water balance before bidding.
 - **Sale-risk flags:** (1) the Aug 25, 2026 postponement order names the wrong address ("5616 Thomas Ave"), so confirm with the Sheriff that the Nov 3 listing stands; (2) a new bankruptcy would stay the sale (low odds; check PACER the morning of Nov 3); (3) the plaintiff may postpone a sixth time.
 
@@ -46,7 +49,8 @@ He is not a career investor with a portfolio. His other recorded properties are 
 - 1,728 sf, 3-story masonry row, built 1925, 14 x 77 ft lot (1,113 sf), zoned RSA5. OPA exterior 3, interior 4. No L&I violations ever.
 - **Expect a partly demolished, vacant shell.** The 2019 permit covered interior wall and ceiling demo, nothing followed, and it has likely been empty three or more years. Plan for a full systems rehab with new finishes, and look for water intrusion and break-ins. The blind budget uses Heavy ($186k with 20% contingency); the downside case uses Gut ($269k).
 - **Upside from the lot:** the 14 x 77 lot is large for the block. The rear yard is roughly 530 sf, and RSA5 allows more coverage, so a rear extension or a roof deck with a pilot house can lift ARV. Not underwritten.
-- Location: the first block west of Front St, between Palmer and Berks, a block from the Berks El stop. It sits on the Fishtown / South Kensington edge. Blocks west of Front trade much lower (100 block W Palmer: $175–240k for 720 sf trinities). The El is close, so expect some noise discount versus the core Fishtown comps.
+- **Location:** the short stretch of Palmer between Front St and Blair St, on the **Fishtown side of Front** (parcel coordinates sit east of the Front St frontage), a block from the Berks El stop, with a park across the street (Zillow street photos). The next-door house, 14 W Palmer, sold for $660k (4 bd / 4 ba, about 3,000 sf per Zillow). Blocks west of Front trade much lower (100 block W Palmer: $175–240k for 720 sf trinities). The El and Front St are close, so expect some discount versus the core Fishtown comps.
+- **Exterior (Zillow photos, the only ones that exist):** painted/stuccoed brick front, arched door, window AC units in the bays (no central air). No interior photos exist on Zillow, Redfin or the 2021–22 MLS record.
 
 ## Value
 
@@ -65,7 +69,7 @@ Comps are 106 row-house sales within 0.35 mi from 2024 to 2026, 1,200–2,400 sf
 | 1425 N Front St | 0.24 | 2025-11 | $335,000 | 1,349 | $248 | On Front St, dated |
 
 - **ARV:** base $675k ($391/sf), downside $640k, upside $710k. The screen's $695k is reasonable but doesn't account for the El/Front St edge.
-- **As-is:** about $350–400k as a shell (18 E Columbia, 105 W Oxford). The screen's $452k assumed a livable house.
+- **As-is:** about $350–400k as a shell (18 E Columbia, 105 W Oxford). It failed to sell at $352k in 2022. The screen's $452k assumed a livable house. LandVision's AVM ($483k) and Redfin's estimate ($465k) don't know about the interior.
 - **Hold doesn't work:** at $3,000–3,400/mo rent the yield on cost is 3–4% at any realistic bid. This is a flip, or a wholesale to a flipper.
 
 ## Underwriting scenarios
@@ -95,10 +99,10 @@ All-in cash at a $240k bid is about $455k over 20 months, a big slice of the $1M
 
 ## Before bidding
 
-- Read the complaint or the PhilaDox mortgage record to confirm NewRez's mortgage is the 8/1/2019 instrument (expected from the Chrome thread).
+- Optional: buy the complaint PDF from FJD (a few dollars) to see the mortgage identified by date.
 - Ask the Sheriff whether the wrong-address postponement order affects the Nov 3 listing.
 - Check the open water lien balance.
-- Look at the Zillow and LandVision listing photos from the 2019 sale for interior and layout, and at the drive-by for the roof, cornice, front wall, boarded windows and the rear.
+- No interior photos exist anywhere, so the drive-by is the only look. Check the roof, cornice, the stucco front, boarded windows, the rear, and whether the window AC units are still in (a sign of past occupancy). Check Auction.com for a duplicate listing or a property-condition note, since Zillow shows the house listed there.
 - Check PACER for a new Prem bankruptcy on Nov 2–3.
 
-Sources: [research/docket_owner.md](research/docket_owner.md) (FJD docket, owner profile), City Carto API (OPA, RTT, permits, licenses, violations, assessments), market-comps/sales_24mo.csv.
+Sources: `sources/` (LandVision, Zillow, Redfin, PhilaDox index, docket), [research/docket_owner.md](research/docket_owner.md) (FJD docket, owner profile), City Carto API (OPA, RTT, permits, licenses, violations, assessments), market-comps/sales_24mo.csv.
