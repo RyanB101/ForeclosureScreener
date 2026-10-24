@@ -124,7 +124,7 @@ On the base gut case, a $135k bid makes about $149k profit and a $203k bid about
 
 ## Before bidding
 
-- **First: confirm the date of death** (obituary, Social Security death index, or a Philadelphia Register of Wills estate search) and whether an estate was opened. Then call Pincus Law Group to ask whether they plan to substitute the estate or postpone, and ask a sheriff-sale title company whether they would insure.
+- **First: title.** He died 9/2/2025. Check the Philadelphia Register of Wills for an estate and a personal representative. Ask a sheriff-sale title company whether it will insure a sale with no substitution, and ask Pincus Law Group whether it will substitute the estate or postpone.
 
 - Optional: buy the complaint PDF from FJD (a few dollars) to see the mortgage identified by date.
 - Ask the Sheriff whether the wrong-address postponement order affects the Nov 3 listing.
