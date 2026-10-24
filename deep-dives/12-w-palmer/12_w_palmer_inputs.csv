@@ -4,4 +4,8 @@ auction_id,address,zip,open_bid,debt,lien_pos,bldg_sf,lot_sf,year_built,units,op
 1311511-2,2 Base but occupied (squatter/holdover),19125,27200,329601,1st,1728,1113,1925,1,409100,380000,675000,3200,Heavy,0,Occupied,2500,,,,,,12 W Palmer deep dive scenario
 1311511-3,"3 Downside: ARV 640k, Gut, vacant",19125,27200,329601,1st,1728,1113,1925,1,409100,350000,640000,3000,Gut,0,Vacant,2500,,,,,,12 W Palmer deep dive scenario
 1311511-4,"4 Upside: ARV 710k, Heavy, vacant",19125,27200,329601,1st,1728,1113,1925,1,409100,400000,710000,3400,Heavy,0,Vacant,2500,,,,,,12 W Palmer deep dive scenario
-1311511-5,"5 Junior plaintiff: base + $300k senior survives",19125,27200,329601,2nd,1728,1113,1925,1,409100,380000,675000,3200,Heavy,0,Vacant,302500,,,,,,12 W Palmer deep dive scenario
+1311511-5,5 Junior plaintiff: base + $300k senior survives,19125,27200,329601,2nd,1728,1113,1925,1,409100,380000,675000,3200,Heavy,0,Vacant,302500,,,,,,12 W Palmer deep dive scenario
+1311511-6,"6 Gut + $30k foundation, ARV 675k, vacant",19125,27200,329601,1st,1728,1113,1925,1,409100,330000,675000,3200,Gut,30000,Vacant,2500,,,,,,12 W Palmer deep dive scenario
+1311511-7,"7 Gut + $30k foundation, ARV 640k, vacant",19125,27200,329601,1st,1728,1113,1925,1,409100,330000,640000,3200,Gut,30000,Vacant,2500,,,,,,12 W Palmer deep dive scenario
+1311511-8,"8 Gut + $30k foundation, ARV 710k, vacant",19125,27200,329601,1st,1728,1113,1925,1,409100,330000,710000,3200,Gut,30000,Vacant,2500,,,,,,12 W Palmer deep dive scenario
+1311511-9,"9 Gut + $30k foundation, ARV 675k, + $15k estate/title cure",19125,27200,329601,1st,1728,1113,1925,1,409100,330000,675000,3200,Gut,30000,Vacant,17500,,,,,,12 W Palmer deep dive scenario

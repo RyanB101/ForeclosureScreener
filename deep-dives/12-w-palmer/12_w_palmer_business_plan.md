@@ -7,13 +7,14 @@ Researched 2026-10-22. Updated the same day with the LandVision, Zillow, Redfin,
 
 ## Verdict
 
-**Hold until the owner's death is pinned down (updated 2026-10-24).** ryan reports that Charles H. Prem died in 2025 at about 90. I couldn't find a public obituary, and nothing on the docket mentions a death. The case still names him as a living defendant, with no estate, personal representative or heirs substituted. A sale on a judgment against a dead defendant can be challenged, and a title insurer may refuse to insure it.
+**Bid only with title-company sign-off. Target $100k–$125k, walk away at $135k (updated 2026-10-24).**
 
-- **If he died before the 3/26/2025 default judgment: pass.** In Pennsylvania a judgment entered against a party who is already dead is generally treated as void, and the sale built on it can be set aside by the heirs.
-- **If he died after the judgment:** executing against a dead debtor's real estate normally requires bringing in the estate or heirs first. Bid only if a sheriff-sale title company will insure it, and cut the cap to about $175k to price in the risk and delay. Expect NewRez to postpone a sixth time once it learns of the death.
-- **If the death turns out to be a different Charles Prem**, the earlier plan stands: target $175k–$210k, walk away at $240k.
+Two things changed:
 
-The lien analysis is unaffected. The plaintiff is **NewRez LLC d/b/a Shellpoint Mortgage Servicing**, foreclosing on the 2019 $225,150 purchase first mortgage, and the Figure/Green Lake HELOC is junior and wiped out. The house is very likely vacant: Shellpoint registered it as vacant in May 2025, and court mail has bounced since December 2023.
+1. **The owner died on September 2, 2025** (obituary found by ryan). That was after the 3/26/2025 default judgment and the 4/25/2025 writ, so the judgment itself stands. But the 11/17/2025 reassessment and the 5/26/2026 writ re-issue came after his death, and the docket still names him as a living defendant with no estate or heirs substituted. Pennsylvania practice generally requires bringing in the decedent's estate before executing on his real estate. So the heirs, or a title insurer, could question the sale. Before bidding, ask a sheriff-sale title company whether it will insure, and ask Pincus Law whether it plans to substitute the estate. Expect a real chance of a sixth postponement.
+2. **It's a gut renovation with foundation work.** ryan's look shows the basement window has been broken open for years, and the basement is rough with foundation damage. Underwriting now uses Gut ($125/sf) plus $30k for structural work, a $299k rehab budget.
+
+The lien analysis is unaffected. The plaintiff is NewRez LLC d/b/a Shellpoint, foreclosing on the 2019 $225,150 purchase first mortgage. The $77,250 Figure/Green Lake HELOC is junior and is wiped out.
 
 ## Why it is being sold: a stalled family project, financed in an elderly man's name
 
@@ -102,9 +103,20 @@ From the project's underwriting model ([12_w_palmer_scenarios.xlsx](12_w_palmer_
 
 All-in cash at a $240k bid is about $455k over 20 months, a big slice of the $1M cap.
 
+### Gut + foundation scenarios (added 2026-10-24)
+
+| Scenario | ARV | Rehab | Max bid | Profit at max |
+|---|---|---|---|---|
+| 6 Gut + $30k foundation, base | $675k | $299k | $151,838 | $132,065 (22 mo) |
+| 7 Same, downside | $640k | $299k | $127,305 | $125,217 |
+| 8 Same, upside | $710k | $299k | $176,371 | $138,912 |
+| 9 Base + $15k estate/title cure | $675k | $299k | $137,060 | $132,065 |
+
+On the base gut case, a $135k bid makes about $149k profit and a $203k bid about $80k (below the 15%/yr floor). All-in cash at the max is about $480k. Scenarios 1–5 above assumed a Heavy rehab and are superseded.
+
 ## Business plan
 
-1. **Bid:** open late in the 1:10 PM batch. Target $175–210k, hard stop $240k. Expect competition: the lender's firm took 1471 E Wilt at 66% of its OPA value, and the same ratio here is about $270k. We may lose this to the plaintiff or a retail flipper, and that's fine above $240k.
+1. **Bid (only if title will insure):** open late in the 1:10 PM batch. Target $100–125k, hard stop $135k. Expect competition: the lender's firm took 1471 E Wilt at 66% of its OPA value, and the same ratio here is about $270k. We may lose this to the plaintiff or a retail flipper, and that's fine above $240k.
 2. **Sale to deed (about 12 months):** secure and insure the house as a vacant property, keep the city vacant-property license current, and get a sheriff-sale title policy that clears the HSBC 2008 cleanup item.
 3. **Rehab (about 5 months):** full systems with new kitchen and baths, roof check, and front-wall pointing. Finish to a Fishtown resale standard ($390–400/sf product). Price out a roof deck with a pilot house; it is the cheapest ARV lift on a 3-story row here.
 4. **Sell (about 3 months):** list around $689–699k against 17 E Columbia. Floor $640k.
