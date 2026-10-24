@@ -7,11 +7,24 @@ Researched 2026-10-22. Updated the same day with the LandVision, Zillow, Redfin,
 
 ## Verdict
 
-**Bid. Target $175k–$210k, walk away at $240k.** Raise the cap to about $270k only if listing photos or a drive-by show the interior is not stripped or water-damaged.
+**Hold until the owner's death is pinned down (updated 2026-10-24).** ryan reports that Charles H. Prem died in 2025 at about 90. I couldn't find a public obituary, and nothing on the docket mentions a death. The case still names him as a living defendant, with no estate, personal representative or heirs substituted. A sale on a judgment against a dead defendant can be challenged, and a title insurer may refuse to insure it.
 
-The title flag that held this lot is resolved in our favor. The plaintiff is **NewRez LLC d/b/a Shellpoint Mortgage Servicing**, which is foreclosing on the 2019 purchase-money first mortgage. The Figure/Green Lake HELOC second mortgage is junior and is wiped out by the sale. The house is very likely vacant: Shellpoint registered it with the city as a vacant property in May 2025, and court mail to the house has bounced since December 2023.
+- **If he died before the 3/26/2025 default judgment: pass.** In Pennsylvania a judgment entered against a party who is already dead is generally treated as void, and the sale built on it can be set aside by the heirs.
+- **If he died after the judgment:** executing against a dead debtor's real estate normally requires bringing in the estate or heirs first. Bid only if a sheriff-sale title company will insure it, and cut the cap to about $175k to price in the risk and delay. Expect NewRez to postpone a sixth time once it learns of the death.
+- **If the death turns out to be a different Charles Prem**, the earlier plan stands: target $175k–$210k, walk away at $240k.
 
-## Why it is being sold: a stalled flip by an over-leveraged small investor
+The lien analysis is unaffected. The plaintiff is **NewRez LLC d/b/a Shellpoint Mortgage Servicing**, foreclosing on the 2019 $225,150 purchase first mortgage, and the Figure/Green Lake HELOC is junior and wiped out. The house is very likely vacant: Shellpoint registered it as vacant in May 2025, and court mail has bounced since December 2023.
+
+## Why it is being sold: a stalled family project, financed in an elderly man's name
+
+**Revised 2026-10-24.** If Charles H. Prem was about 84 in 2019, he almost certainly wasn't running a flip himself. The records point to a family deal done on his name and credit:
+- An older Charles H. Prem (with Lillian) owned 1324 E Oxford St in Fishtown from at least 2001 and deeded it to James R. Prem in 2006. That fits the senior Charles, born about 1935.
+- A **Charles Prem II** owns 1471 E Wilt St, a few blocks away. The 2019 Wilt refinance was signed by both "Prem Charles" and "Prem Charles II", so the elder co-borrowed for the younger.
+- Both houses went into foreclosure the same month (Nov 2022) and share one bankruptcy (23-10682), filed for "Charles Prem". A Charles Prem also owns 3715 President St with Kathy/Kathleen Mary, which had a loan modification and a HUD partial-claim mortgage in 2015–16. That could be the senior Charles or a middle generation.
+- The likeliest story: a younger relative (probably Charles II) bought and started renovating 12 W Palmer using the elder's name, credit and an owner-occupant 95% loan. When the money ran out and the elder declined and died, nobody was left to defend or sell. The "owner-occupied" case type, the failed 2021–22 listing, the dropped conciliation in 2024 and the 2025 vacancy registration all fit.
+- The forced-sale conclusion holds, and the house will likely sell without any defense. The new problem is the legal one under Verdict.
+
+The original timeline follows.
 
 | Date | Event | Source |
 |---|---|---|
@@ -98,6 +111,8 @@ All-in cash at a $240k bid is about $455k over 20 months, a big slice of the $1M
 5. **Fallback:** wholesale the deed to a Fishtown flipper. The model supports about $280k as an assignment price.
 
 ## Before bidding
+
+- **First: confirm the date of death** (obituary, Social Security death index, or a Philadelphia Register of Wills estate search) and whether an estate was opened. Then call Pincus Law Group to ask whether they plan to substitute the estate or postpone, and ask a sheriff-sale title company whether they would insure.
 
 - Optional: buy the complaint PDF from FJD (a few dollars) to see the mortgage identified by date.
 - Ask the Sheriff whether the wrong-address postponement order affects the Nov 3 listing.
