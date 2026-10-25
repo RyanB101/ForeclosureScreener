@@ -1,0 +1,61 @@
+timeline,scope,arv,sale_month,max_bid_npv50k,nominal_profit_at_max,breakeven_bid_npv0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Light,365000,16,192500.0,77900.0,241900.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Light,380000,16,204600.0,79200.0,254000.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Light,395000,16,216700.0,80400.0,266100.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Light,410000,16,228900.0,81700.0,278300.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Light,430000,16,245100.0,83500.0,294500.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Medium,365000,17,163600.0,77400.0,213000.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Medium,380000,17,175600.0,78800.0,225000.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Medium,395000,17,187700.0,80200.0,237100.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Medium,410000,17,199700.0,81600.0,249100.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Medium,430000,17,215800.0,83400.0,265200.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Heavy,365000,18,145600.0,77700.0,195000.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Heavy,380000,18,157600.0,79200.0,207000.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Heavy,395000,18,169500.0,80600.0,218900.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Heavy,410000,18,181500.0,82100.0,230900.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Heavy,430000,18,197500.0,84000.0,246900.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Gut,365000,19,115600.0,76900.0,165000.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Gut,380000,19,127500.0,78400.0,176900.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Gut,395000,19,139400.0,79900.0,188800.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Gut,410000,19,151300.0,81400.0,200700.0
+"Fast: deed 9 mo, keys 2 mo, $7.5k",Gut,430000,19,167100.0,83500.0,216500.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Light,365000,25,171700.0,91500.0,221100.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Light,380000,25,183100.0,93500.0,232500.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Light,395000,25,194600.0,95500.0,244000.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Light,410000,25,206000.0,97500.0,255400.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Light,430000,25,221300.0,100100.0,270700.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Medium,365000,26,144400.0,89500.0,193800.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Medium,380000,26,155800.0,91500.0,205200.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Medium,395000,26,167100.0,93600.0,216500.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Medium,410000,26,178500.0,95700.0,227900.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Medium,430000,26,193700.0,98400.0,243100.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Heavy,365000,27,127400.0,88800.0,176800.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Heavy,380000,27,138700.0,90900.0,188100.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Heavy,395000,27,150000.0,93000.0,199400.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Heavy,410000,27,161300.0,95200.0,210700.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Heavy,430000,27,176400.0,98000.0,225800.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Gut,365000,28,99100.0,86200.0,148500.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Gut,380000,28,110300.0,88400.0,159700.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Gut,395000,28,121500.0,90600.0,170900.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Gut,410000,28,132800.0,92800.0,182200.0
+"Base: deed 12 mo, cash for keys/ejectment 8 mo, $10k",Gut,430000,28,147700.0,95700.0,197100.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Light,365000,31,156000.0,99500.0,205400.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Light,380000,31,167000.0,101900.0,216400.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Light,395000,31,178000.0,104400.0,227400.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Light,410000,31,189000.0,106800.0,238400.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Light,430000,31,203700.0,110000.0,253100.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Medium,365000,32,129700.0,96400.0,179100.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Medium,380000,32,140600.0,98900.0,190100.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Medium,395000,32,151600.0,101400.0,201000.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Medium,410000,32,162500.0,103900.0,211900.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Medium,430000,32,177100.0,107200.0,226500.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Heavy,365000,33,113400.0,95000.0,162800.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Heavy,380000,33,124200.0,97600.0,173600.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Heavy,395000,33,135100.0,100200.0,184500.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Heavy,410000,33,146000.0,102700.0,195400.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Heavy,430000,33,160500.0,106100.0,209900.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Gut,365000,34,86100.0,91400.0,135500.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Gut,380000,34,96900.0,94000.0,146300.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Gut,395000,34,107700.0,96600.0,157100.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Gut,410000,34,118500.0,99300.0,167900.0
+"Slow: deed 15 mo, contested ejectment 11 mo, $15k",Gut,430000,34,132900.0,102800.0,182300.0

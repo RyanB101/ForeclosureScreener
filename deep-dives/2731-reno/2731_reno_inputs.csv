@@ -1,0 +1,8 @@
+auction_id,address,zip,open_bid,debt,lien_pos,bldg_sf,lot_sf,year_built,units,opa_value,asis_value,arv,rent,scope,ext_adders,occupancy,surv_liens,city_claims,hoa_mo,td_units,td_sf,td_value_unit,notes
+1318974-0,"0 Bench screen (ARV 354k, Heavy, occupied)",19130,24700,275615,1st,700,520,1920,1,285300,240000,354000,2600,Heavy,0,Occupied,2500,,,,,,2731 Reno St deep dive; bench screen inputs re-run with 8-month possession
+1318974-1,"1 Base: ARV 395k, Medium (+$8k roof/front), occupied",19130,24700,275615,1st,700,520,1920,1,285300,265000,395000,2600,Medium,8000,Occupied,2500,,,,,,2731 Reno St deep dive; Fairmount 700-800sf row comps median $390k
+1318974-2,"2 Base but vacant at deed",19130,24700,275615,1st,700,520,1920,1,285300,265000,395000,2600,Medium,8000,Vacant,2500,,,,,,2731 Reno St deep dive
+1318974-3,"3 Light cosmetic: ARV 375k, Light, occupied",19130,24700,275615,1st,700,520,1920,1,285300,265000,375000,2600,Light,0,Occupied,2500,,,,,,2731 Reno St deep dive
+1318974-4,"4 Downside: ARV 365k, Heavy, occupied",19130,24700,275615,1st,700,520,1920,1,285300,240000,365000,2600,Heavy,0,Occupied,2500,,,,,,2731 Reno St deep dive
+1318974-5,"5 Upside: ARV 425k, Medium + half bath, occupied",19130,24700,275615,1st,700,520,1920,1,285300,265000,425000,2600,Medium,20000,Occupied,2500,,,,,,2731 Reno St deep dive; like 813 N Newkirk $432.5k
+1318974-6,"6 Slow ejectment proxy: ARV 395k, Medium, occupied, Heavy timeline",19130,24700,275615,1st,700,520,1920,1,285300,265000,395000,2600,Heavy,0,Occupied,2500,,,,,,Heavy scope used as a proxy for 2 extra months and +$25k (contested possession / surprises)
