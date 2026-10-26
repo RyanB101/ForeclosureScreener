@@ -1,0 +1,41 @@
+occupancy,scope,arv,months_sale_to_sale,bid,all_in_cash,profit,annual_return_on_cash,npv_at_8pct
+Vacant at deed,"Make-ready (paint, punch list, clean)",425000,17,175000,216000.0,167200.0,0.546,130800.0
+Vacant at deed,"Make-ready (paint, punch list, clean)",425000,17,200000,241400.0,141800.0,0.415,105500.0
+Vacant at deed,"Make-ready (paint, punch list, clean)",425000,17,225000,266800.0,116400.0,0.308,80200.0
+Vacant at deed,"Make-ready (paint, punch list, clean)",425000,17,250000,292200.0,91000.0,0.22,54900.0
+Vacant at deed,"Make-ready (paint, punch list, clean)",425000,17,275000,317500.0,65700.0,0.146,29600.0
+Vacant at deed,Light + permit legalization (base),425000,18,175000,236600.0,146200.0,0.412,109500.0
+Vacant at deed,Light + permit legalization (base),425000,18,200000,261900.0,120800.0,0.307,84200.0
+Vacant at deed,Light + permit legalization (base),425000,18,225000,287300.0,95400.0,0.221,58900.0
+Vacant at deed,Light + permit legalization (base),425000,18,250000,312700.0,70000.0,0.149,33600.0
+Vacant at deed,Light + permit legalization (base),425000,18,275000,338100.0,44700.0,0.088,8200.0
+Vacant at deed,Medium: vacancy/freeze damage + legalization,425000,19,175000,272100.0,110100.0,0.256,74600.0
+Vacant at deed,Medium: vacancy/freeze damage + legalization,425000,19,200000,297500.0,84800.0,0.18,49300.0
+Vacant at deed,Medium: vacancy/freeze damage + legalization,425000,19,225000,322800.0,59400.0,0.116,24000.0
+Vacant at deed,Medium: vacancy/freeze damage + legalization,425000,19,250000,348200.0,34000.0,0.062,-1300.0
+Vacant at deed,Medium: vacancy/freeze damage + legalization,425000,19,275000,373600.0,8600.0,0.015,-26600.0
+Vacant at deed,Heavy: stripped or failed inspections,425000,20,175000,327600.0,54100.0,0.099,21800.0
+Vacant at deed,Heavy: stripped or failed inspections,425000,20,200000,353000.0,28700.0,0.049,-3500.0
+Vacant at deed,Heavy: stripped or failed inspections,425000,20,225000,378400.0,3400.0,0.005,-28800.0
+Vacant at deed,Heavy: stripped or failed inspections,425000,20,250000,403700.0,-22000.0,-0.033,-54100.0
+Vacant at deed,Heavy: stripped or failed inspections,425000,20,275000,429100.0,-47400.0,-0.066,-79500.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,"Make-ready (paint, punch list, clean)",425000,24.5,175000,227500.0,153100.0,0.33,103000.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,"Make-ready (paint, punch list, clean)",425000,24.5,200000,252800.0,127700.0,0.247,77700.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,"Make-ready (paint, punch list, clean)",425000,24.5,225000,278200.0,102400.0,0.18,52400.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,"Make-ready (paint, punch list, clean)",425000,24.5,250000,303600.0,77000.0,0.124,27100.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,"Make-ready (paint, punch list, clean)",425000,24.5,275000,329000.0,51600.0,0.077,1800.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Light + permit legalization (base),425000,25.5,175000,248000.0,132100.0,0.251,82700.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Light + permit legalization (base),425000,25.5,200000,273400.0,106700.0,0.184,57400.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Light + permit legalization (base),425000,25.5,225000,298700.0,81300.0,0.128,32100.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Light + permit legalization (base),425000,25.5,250000,324100.0,56000.0,0.081,6800.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Light + permit legalization (base),425000,25.5,275000,349500.0,30600.0,0.041,-18500.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Medium: vacancy/freeze damage + legalization,425000,26.5,175000,283500.0,96100.0,0.153,49400.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Medium: vacancy/freeze damage + legalization,425000,26.5,200000,308900.0,70700.0,0.104,24100.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Medium: vacancy/freeze damage + legalization,425000,26.5,225000,334200.0,45300.0,0.061,-1200.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Medium: vacancy/freeze damage + legalization,425000,26.5,250000,359600.0,19900.0,0.025,-26500.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Medium: vacancy/freeze damage + legalization,425000,26.5,275000,385000.0,-5400.0,-0.006,-51800.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Heavy: stripped or failed inspections,425000,27.5,175000,339000.0,40000.0,0.052,-900.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Heavy: stripped or failed inspections,425000,27.5,200000,364400.0,14700.0,0.018,-26200.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Heavy: stripped or failed inspections,425000,27.5,225000,389800.0,-10700.0,-0.012,-51500.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Heavy: stripped or failed inspections,425000,27.5,250000,415100.0,-36100.0,-0.038,-76800.0
+Occupied (squatter/tenant): cash for keys / ejectment 8.5 mo,Heavy: stripped or failed inspections,425000,27.5,275000,440500.0,-61500.0,-0.061,-102100.0
