@@ -1,0 +1,8 @@
+auction_id,address,zip,open_bid,debt,lien_pos,bldg_sf,lot_sf,year_built,units,opa_value,asis_value,arv,rent,scope,ext_adders,occupancy,surv_liens,city_claims,hoa_mo,td_units,td_sf,td_value_unit,notes
+1311128-0,"0 Bench screen (ARV 352k, Heavy, occupied)",19145,26100,124727,1st,1512,1008,1920,1,208400,219000,352000,2410,Heavy,0,Occupied,2500,,,,,,2033 Mifflin St deep dive; bench inputs re-run with 8-month possession
+1311128-1,"1 Base: ARV 375k, Medium (+$15k bay/porch/cornice), occupied",19145,26100,124727,1st,1512,1008,1920,1,208400,200000,375000,2600,Medium,15000,Occupied,2500,,,,,,2033 Mifflin deep dive; 21 renovated 2-sty 1300-1750sf rows within 0.3 mi median $379k; same-model 2011 Mifflin $390k (2021)
+1311128-2,2 Base but vacant at deed,19145,26100,124727,1st,1512,1008,1920,1,208400,200000,375000,2600,Medium,15000,Vacant,2500,,,,,,2033 Mifflin deep dive
+1311128-3,"3 Light cosmetic (4/1.5): ARV 355k, Light +15k, occupied",19145,26100,124727,1st,1512,1008,1920,1,208400,200000,355000,2600,Light,15000,Occupied,2500,,,,,,2033 Mifflin deep dive
+1311128-4,"4 Downside: ARV 345k, Heavy +15k, occupied",19145,26100,124727,1st,1512,1008,1920,1,208400,190000,345000,2600,Heavy,15000,Occupied,2500,,,,,,2033 Mifflin deep dive; like next door 2031 (Zestimate $343k)
+1311128-5,"5 Upside: ARV 410k, Medium + 3rd bath (+$30k), occupied",19145,26100,124727,1st,1512,1008,1920,1,208400,200000,410000,2600,Medium,30000,Occupied,2500,,,,,,2033 Mifflin deep dive; like 2011 Mifflin 3/3 (Zestimate $406k)
+1311128-6,"6 Slow/surprises proxy: ARV 375k, Heavy timeline, occupied",19145,26100,124727,1st,1512,1008,1920,1,208400,200000,375000,2600,Heavy,0,Occupied,2500,,,,,,Heavy scope as a proxy for 2 extra months and about +$40k (contested possession / rooming-house layout)
