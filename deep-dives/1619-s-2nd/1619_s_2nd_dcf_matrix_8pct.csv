@@ -1,0 +1,37 @@
+scope,resale_case,arv,rehab,timeline,sale_month,max_bid_npv50k,profit_before_8pct_at_max,breakeven_bid_8pct,all_in_at_max
+"Light: keep 3 units, refresh, sell to investor",low,430000,66160,"Fast: deed 9 mo, vacant or keys in 3 mo, $9k",18,209600.0,84900.0,259000.0,305200.0
+"Light: keep 3 units, refresh, sell to investor",low,430000,66160,"Base: deed 12 mo, cash for keys/ejectment 9 mo, $15k (3 units)",27,184300.0,99200.0,233700.0,290900.0
+"Light: keep 3 units, refresh, sell to investor",low,430000,66160,"Slow: deed 15 mo, contested/tenant removal 12 mo, $25k",33,163500.0,107000.0,212900.0,283000.0
+"Light: keep 3 units, refresh, sell to investor",base,470000,66160,"Fast: deed 9 mo, vacant or keys in 3 mo, $9k",18,241500.0,88700.0,290900.0,337600.0
+"Light: keep 3 units, refresh, sell to investor",base,470000,66160,"Base: deed 12 mo, cash for keys/ejectment 9 mo, $15k (3 units)",27,214500.0,104900.0,263900.0,321500.0
+"Light: keep 3 units, refresh, sell to investor",base,470000,66160,"Slow: deed 15 mo, contested/tenant removal 12 mo, $25k",33,192500.0,113900.0,241900.0,312500.0
+"Light: keep 3 units, refresh, sell to investor",high,510000,66160,"Fast: deed 9 mo, vacant or keys in 3 mo, $9k",18,273400.0,92600.0,322800.0,370000.0
+"Light: keep 3 units, refresh, sell to investor",high,510000,66160,"Base: deed 12 mo, cash for keys/ejectment 9 mo, $15k (3 units)",27,244600.0,110500.0,294000.0,352100.0
+"Light: keep 3 units, refresh, sell to investor",high,510000,66160,"Slow: deed 15 mo, contested/tenant removal 12 mo, $25k",33,221600.0,120700.0,271000.0,341900.0
+Medium: de-convert to 1-family 3bd/2ba (base),low,460000,127960,"Fast: deed 9 mo, vacant or keys in 3 mo, $9k",18,177500.0,82800.0,226900.0,334500.0
+Medium: de-convert to 1-family 3bd/2ba (base),low,460000,127960,"Base: deed 12 mo, cash for keys/ejectment 9 mo, $15k (3 units)",27,154100.0,95300.0,203500.0,322000.0
+Medium: de-convert to 1-family 3bd/2ba (base),low,460000,127960,"Slow: deed 15 mo, contested/tenant removal 12 mo, $25k",33,134400.0,102000.0,183800.0,315300.0
+Medium: de-convert to 1-family 3bd/2ba (base),base,500000,127960,"Fast: deed 9 mo, vacant or keys in 3 mo, $9k",18,209500.0,86700.0,258900.0,366900.0
+Medium: de-convert to 1-family 3bd/2ba (base),base,500000,127960,"Base: deed 12 mo, cash for keys/ejectment 9 mo, $15k (3 units)",27,184200.0,101000.0,233600.0,352600.0
+Medium: de-convert to 1-family 3bd/2ba (base),base,500000,127960,"Slow: deed 15 mo, contested/tenant removal 12 mo, $25k",33,163400.0,108800.0,212800.0,344700.0
+Medium: de-convert to 1-family 3bd/2ba (base),high,540000,127960,"Fast: deed 9 mo, vacant or keys in 3 mo, $9k",18,241400.0,90500.0,290800.0,399300.0
+Medium: de-convert to 1-family 3bd/2ba (base),high,540000,127960,"Base: deed 12 mo, cash for keys/ejectment 9 mo, $15k (3 units)",27,214400.0,106700.0,263800.0,383200.0
+Medium: de-convert to 1-family 3bd/2ba (base),high,540000,127960,"Slow: deed 15 mo, contested/tenant removal 12 mo, $25k",33,192500.0,115700.0,241900.0,374200.0
+"Heavy: 1-family, new systems + kitchen/baths",low,530000,184120,"Fast: deed 9 mo, vacant or keys in 3 mo, $9k",20,176800.0,89300.0,226200.0,391500.0
+"Heavy: 1-family, new systems + kitchen/baths",low,530000,184120,"Base: deed 12 mo, cash for keys/ejectment 9 mo, $15k (3 units)",29,153400.0,101700.0,202800.0,379000.0
+"Heavy: 1-family, new systems + kitchen/baths",low,530000,184120,"Slow: deed 15 mo, contested/tenant removal 12 mo, $25k",35,133800.0,108400.0,183200.0,372400.0
+"Heavy: 1-family, new systems + kitchen/baths",base,575000,184120,"Fast: deed 9 mo, vacant or keys in 3 mo, $9k",20,212300.0,94100.0,261700.0,427500.0
+"Heavy: 1-family, new systems + kitchen/baths",base,575000,184120,"Base: deed 12 mo, cash for keys/ejectment 9 mo, $15k (3 units)",29,186900.0,108600.0,236300.0,413000.0
+"Heavy: 1-family, new systems + kitchen/baths",base,575000,184120,"Slow: deed 15 mo, contested/tenant removal 12 mo, $25k",35,166000.0,116500.0,215400.0,405100.0
+"Heavy: 1-family, new systems + kitchen/baths",high,620000,184120,"Fast: deed 9 mo, vacant or keys in 3 mo, $9k",20,247800.0,98900.0,297200.0,463500.0
+"Heavy: 1-family, new systems + kitchen/baths",high,620000,184120,"Base: deed 12 mo, cash for keys/ejectment 9 mo, $15k (3 units)",29,220400.0,115400.0,269800.0,447000.0
+"Heavy: 1-family, new systems + kitchen/baths",high,620000,184120,"Slow: deed 15 mo, contested/tenant removal 12 mo, $25k",35,198200.0,124600.0,247600.0,437800.0
+Gut: 1-family + roof deck,low,590000,274000,"Fast: deed 9 mo, vacant or keys in 3 mo, $9k",22,137400.0,92200.0,186800.0,443000.0
+Gut: 1-family + roof deck,low,590000,274000,"Base: deed 12 mo, cash for keys/ejectment 9 mo, $15k (3 units)",31,116200.0,102400.0,165600.0,432800.0
+Gut: 1-family + roof deck,low,590000,274000,"Slow: deed 15 mo, contested/tenant removal 12 mo, $25k",37,98000.0,107600.0,147400.0,427600.0
+Gut: 1-family + roof deck,base,640000,274000,"Fast: deed 9 mo, vacant or keys in 3 mo, $9k",22,176400.0,98000.0,225800.0,482500.0
+Gut: 1-family + roof deck,base,640000,274000,"Base: deed 12 mo, cash for keys/ejectment 9 mo, $15k (3 units)",31,153000.0,110400.0,202400.0,470100.0
+Gut: 1-family + roof deck,base,640000,274000,"Slow: deed 15 mo, contested/tenant removal 12 mo, $25k",37,133400.0,117100.0,182800.0,463400.0
+Gut: 1-family + roof deck,high,700000,274000,"Fast: deed 9 mo, vacant or keys in 3 mo, $9k",22,223100.0,105000.0,272500.0,529900.0
+Gut: 1-family + roof deck,high,700000,274000,"Base: deed 12 mo, cash for keys/ejectment 9 mo, $15k (3 units)",31,197000.0,120100.0,246400.0,514800.0
+Gut: 1-family + roof deck,high,700000,274000,"Slow: deed 15 mo, contested/tenant removal 12 mo, $25k",37,175800.0,128500.0,225200.0,506500.0

@@ -1,0 +1,9 @@
+auction_id,address,zip,open_bid,debt,lien_pos,bldg_sf,lot_sf,year_built,units,opa_value,asis_value,arv,rent,scope,ext_adders,occupancy,surv_liens,city_claims,hoa_mo,td_units,td_sf,td_value_unit,notes
+1310199-0,"0 Prior screen (ARV 445k, Medium, occupied)",19148,19500,92898,1st,1560,1120,1915,3,320900,330000,445000,4200,Medium,0,Occupied,2500,,,,,,1619 S 2nd St deep dive scenario
+1310199-1,"1 Light: keep 3 units, sell to investor at 470k, occupied",19148,19500,92898,1st,1560,1120,1915,3,320900,330000,470000,4200,Light,0,Occupied,2500,,,,,,1619 S 2nd St deep dive scenario
+1310199-2,"2 Base: Medium de-convert to 1-family, ARV 500k, occupied",19148,19500,92898,1st,1560,1120,1915,3,320900,330000,500000,4200,Medium,15000,Occupied,2500,,,,,,"1619 S 2nd St deep dive scenario (adders: remove 2 kitchens, use-change permit)"
+1310199-3,"3 Medium 1-family, low resale 460k, occupied",19148,19500,92898,1st,1560,1120,1915,3,320900,330000,460000,4200,Medium,15000,Occupied,2500,,,,,,1619 S 2nd St deep dive scenario
+1310199-4,"4 Medium 1-family, high resale 540k, occupied",19148,19500,92898,1st,1560,1120,1915,3,320900,330000,540000,4200,Medium,15000,Occupied,2500,,,,,,1619 S 2nd St deep dive scenario
+1310199-5,"5 Heavy 1-family, ARV 575k, occupied",19148,19500,92898,1st,1560,1120,1915,3,320900,330000,575000,4200,Heavy,15000,Occupied,2500,,,,,,1619 S 2nd St deep dive scenario
+1310199-6,"6 Gut 1-family + roof deck, ARV 640k, occupied",19148,19500,92898,1st,1560,1120,1915,3,320900,330000,640000,4200,Gut,30000,Occupied,2500,,,,,,1619 S 2nd St deep dive scenario
+1310199-7,"7 Base Medium 1-family but vacant at deed",19148,19500,92898,1st,1560,1120,1915,3,320900,330000,500000,4200,Medium,15000,Vacant,2500,,,,,,1619 S 2nd St deep dive scenario
