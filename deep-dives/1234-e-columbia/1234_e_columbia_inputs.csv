@@ -1,0 +1,7 @@
+auction_id,address,zip,open_bid,debt,lien_pos,bldg_sf,lot_sf,year_built,units,opa_value,asis_value,arv,rent,scope,ext_adders,occupancy,surv_liens,city_claims,hoa_mo,td_units,td_sf,td_value_unit,notes
+1309707-0,"1234 E COLUMBIA AVE 0 Screen (ARV 780k, Medium, occupied)",19125,48900,203262,1st,2556,2080,1915,1,560200,600000,780000,4200,Medium,0,Occupied,2500,,,,,,"1234 E Columbia deep dive scenario, Oct 27"
+1309707-1,"1234 E COLUMBIA AVE 1 Base: ARV 820k, Medium, owner-occupied",19125,48900,203262,1st,2556,2080,1915,1,560200,600000,820000,4200,Medium,0,Occupied,2500,,,,,,"1234 E Columbia deep dive scenario, Oct 27"
+1309707-2,"1234 E COLUMBIA AVE 2 Base, owner leaves after sale (vacant at deed)",19125,48900,203262,1st,2556,2080,1915,1,560200,600000,820000,4200,Medium,0,Vacant,2500,,,,,,"1234 E Columbia deep dive scenario, Oct 27"
+1309707-3,"1234 E COLUMBIA AVE 3 Owner's 2024-25 work holds up: Light, occupied",19125,48900,203262,1st,2556,2080,1915,1,560200,600000,820000,4200,Light,0,Occupied,2500,,,,,,"1234 E Columbia deep dive scenario, Oct 27"
+1309707-4,"1234 E COLUMBIA AVE 4 Downside: ARV 750k, Heavy, occupied",19125,48900,203262,1st,2556,2080,1915,1,560200,560000,750000,4200,Heavy,0,Occupied,2500,,,,,,"1234 E Columbia deep dive scenario, Oct 27"
+1309707-5,"1234 E COLUMBIA AVE 5 Upside: ARV 900k (1409 E Columbia flip), Medium, occupied",19125,48900,203262,1st,2556,2080,1915,1,560200,620000,900000,4200,Medium,0,Occupied,2500,,,,,,"1234 E Columbia deep dive scenario, Oct 27"
